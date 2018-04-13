@@ -1,0 +1,123 @@
+#pragma once
+#include<iostream>
+#include<assert.h>
+using namespace std;
+
+int flag = 1;
+int my_atoi(const char* str)
+{
+	assert(str);
+	long long ret = 0;
+	//判断字符串是否为空
+	if (*str == '\0')
+	{
+		flag =0;
+		return 0;
+	}
+	//去掉空格、制表符
+	while (isspace(*str))
+	{
+		str++;
+	}
+	//判断符号并进行异常处理
+	int symbol = 1;
+	if (*str == '-')
+	{
+		symbol = -1;
+		str++;
+		if ((*str<'0') || (*str)>'9')
+		{
+			flag = 0;
+			return 0;
+		}
+	}
+	else if (*str == '+')
+	{
+		str++;
+	}
+	else if ((*str<'0') || (*str)>'9')
+	{
+		flag = 0;
+		return 0;
+	}
+
+	//读取数字字符
+	while ((*str!='\0')&&(*str >= '0') && (*str <= '9'))
+	{
+		ret = ret * 10 + (*str - '0');
+		str++;
+	}
+	ret = ret*symbol;
+
+	//检测溢出
+	//
+	//   int  0111 1111 1111 1111 1111 1111 1111 1111 正溢出
+	//         7     f   f     f   f    f    f     f
+	//        1000 0000 0000 0000 0000 0000 0000 0000 负溢出(size_t)
+	//          8    0   0    0    0     0    0    0     
+	//
+	if ((ret > (0x7fffffff) && symbol == 1) || ((-ret > (unsigned int)0x80000000 ) && symbol == -1))
+	{
+		flag = 0;
+		return 0;
+	}
+
+	flag = 1;
+	return (int)ret;
+}
+
+void Printstatus()
+{
+	if (flag == 1)
+		cout << "数值正常" << endl;
+	else
+		cout << "数值出错" << endl;
+}
+
+void test()
+{
+	char* p = "  - 12345";
+	char* p1 = "";
+	char* p2 = "asd";
+	char* p3 = "-12sad";   //遇到字母退出
+	char* p4 = "9234567890";
+	char* p5 = " -7654321890";
+	char* p6 = " 434563";
+	int ret=my_atoi(p);
+	cout << ret << endl;
+	Printstatus();
+	cout << endl;
+
+	cout <<"atoi:"<< atoi(p) << endl;
+
+	ret = my_atoi(p1);
+	cout << ret << endl;
+	Printstatus();
+	cout << endl;
+
+	 ret = my_atoi(p2);
+	cout << ret << endl;
+	Printstatus();
+	cout << endl;
+
+	ret = my_atoi(p3);
+	cout << ret << endl;
+	Printstatus();
+	cout << endl;
+
+	ret = my_atoi(p4);
+	cout << ret << endl;
+	Printstatus();
+	cout << endl;
+
+    ret = my_atoi(p5);
+	cout << ret << endl;
+	Printstatus();
+	cout <<endl;
+
+	ret = my_atoi(p6);
+	cout << ret << endl;
+	Printstatus();
+	cout <<  endl;
+
+}
