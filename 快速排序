@@ -1,0 +1,100 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+
+#include<iostream>
+using namespace std;
+
+int postion(int* arr, int left, int right);
+void _QuickSort(int* arr, int left, int right);
+
+int MidNumber(int* arr,int left,int right)   //三数取中
+{
+	if (left >right)
+		return left;
+
+	right = right - 1;
+
+	int mid = (left - right)/2 + right;
+	if (arr[left] < arr[right])
+	{
+		if (arr[mid] < arr[left])
+			return left;
+		else if (arr[right] < arr[mid])
+			return right;
+		else
+			return mid;
+	}
+	else
+	{
+		if (arr[mid]>arr[left])
+			return left;
+		else if (arr[right] > arr[mid])
+			return right;
+		else
+			return mid;
+	}
+}
+
+void QuickSort(int* arr,int size)
+{
+	int left = 0;
+	int right = size;     //左闭右开
+	_QuickSort(arr, left, right);
+
+}
+void _QuickSort(int* arr,int left,int right)
+{
+
+	int div = postion(arr,left,right);
+
+	if (left < right)
+	{
+		_QuickSort(arr, left, div);
+		_QuickSort(arr,div+1,right);
+	}
+
+}
+int postion(int* arr, int left, int right)  //追赶法，左闭右开
+{
+	int key = arr[MidNumber(arr, left, right)];  //基准值
+	//int key = arr[right - 1];
+	int cur = left;
+	int pre = left - 1;
+	while (cur<right)
+	{
+		if (arr[cur] < key)
+		{
+			pre++;
+			if (cur == pre)
+				cur++;
+			else
+			{
+				swap(arr[cur], arr[pre]);
+			}
+		}
+		else
+			cur++;
+	}
+	if (pre + 1 != cur)
+		swap(arr[++pre],arr[cur-1]);
+
+	return pre;
+}
+
+void Display(int* arr,int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		cout << arr[i] << ",";
+	}
+	cout << endl;
+}
+int main()
+{
+	int arr[] = {2,0,4,9,3,6,8,7,1,5};
+	int size = sizeof(arr) / sizeof(arr[0]);
+	QuickSort(arr,size);
+	Display(arr, size);
+	
+	system("pause");
+	return 0;
+}
