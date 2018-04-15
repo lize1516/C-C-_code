@@ -1,0 +1,21 @@
+#include<iostream>
+using namespace std;
+
+//大端：低地址存高字节，高地址存低字节
+//小端：低地址存低字节，高地址存高字节
+
+union A
+{
+	int a;
+	char c;
+}temp{1};
+int main()
+{
+	if (temp.c == 1)
+		cout << "小端" << endl;
+	else
+		cout << "大端" << endl;
+	
+	system("pause");
+	return 0;
+}
