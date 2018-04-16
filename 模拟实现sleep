@@ -1,0 +1,50 @@
+
+//解决了函数重入问题
+#include<stdio.h>
+#include<signal.h>
+#include<unistd.h>
+
+void sig_alrm(int signo)
+{
+    //do
+}
+
+unsigned int mysleep(unsigned int nsecs)
+{
+    struct sigaction newact,oldact;
+    sigset_t newmask,oldmask,suspmask;
+    unsigned int unslept=0;
+    newact.sa_handler=sig_alrm;
+    sigemptyset(&newact.sa_mask);
+    newact.sa_flags=0;
+    sigaction(SIGALRM,&newact,&oldact);    //注册信号处理函数
+
+    /////////////////////
+    sigemptyset(&newmask);
+    sigaddset(&newmask,SIGALRM);
+    sigprocmask(SIG_BLOCK,&newmask,&oldmask );
+    ////////////
+
+    alarm(nsecs);                //设置闹钟
+    
+    suspmask=oldmask;
+    sigdelset(&suspmask,SIGALRM);   //make sure SIGALRM isn't blocked 
+    sigsuspend(&suspmask);         //wait for any signal to be caught
+
+    unslept=alarm(0);      //清空闹钟
+    sigaction(SIGALRM,&oldact,NULL);  //恢复默认信号处理动作
+
+    sigprocmask(SIG_SETMASK,&oldmask,NULL);
+    return unslept;
+}
+
+int main()
+{
+    while(1)
+    {
+        mysleep(5);
+        printf("5 seconds passed\n");
+    }
+
+    return 0;
+}
