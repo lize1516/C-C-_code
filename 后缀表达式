@@ -1,0 +1,183 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<iostream>
+#include<assert.h>
+#include<stack>
+using namespace std;
+bool Judgechar(char ch)
+{
+	if (ch == '#' || ch == '(' || ch == '*' || ch == '/' || ch == '%' || ch == '+' || ch == '-' || ch == ')')
+		return true;
+	return false;
+}
+
+int isp(char ch)      //栈内优先级
+{
+	switch (ch)
+	{
+	case '#':
+		return 0;
+	case '(':
+		return 1;
+	case '*':
+	case '/':
+	case '%':
+		return 5;
+	case '+':
+	case '-':
+		return 3;
+	case ')':
+		return 6;
+	default:
+		break;
+	}
+	return 0;
+}
+int icp(char ch)        //栈外优先级
+{
+	switch (ch)
+	{
+	case '#':
+		return 0;
+	case '(':
+		return 6;
+	case '*':
+	case '/':
+	case '%':
+		return 4;
+	case '+':
+	case '-':
+		return 2;
+	case ')':
+		return 1;
+	default:
+		break;
+	}
+	return 0;
+}
+int PassNotation(char* array)
+{
+	assert(array);
+	stack<char> s1;
+	string str;
+	s1.push('#');
+	while (*array)          //中缀表达式转成后缀表达式
+	{
+		char ret = *array;
+		char op = s1.top();
+		if (!Judgechar(ret))
+		{
+			str.push_back(ret);
+			cout << ret;
+			array++;
+		}
+		else
+		{
+			str.push_back(' ');
+			cout << " ";
+			if (Judgechar(ret))
+			{
+				if (icp(ret) > isp(op))
+				{
+					s1.push(ret);
+					array++;
+				}
+				else if (icp(ret) < isp(op))
+				{
+					cout << op;
+					str.push_back(op);
+					s1.pop();
+					continue;
+				}
+				else
+				{
+					if (op == '(')
+					{
+						s1.pop();
+						array++;
+						continue;
+					}
+					s1.pop();
+					array++;
+				}
+			}
+		}
+	}
+	//////////////////////////////////计算后缀表达式
+	stack<int>  num;
+	char s[10] = {0};
+	int i = 0;
+	int n = 0;
+	while (str[i])
+	{
+		if (str[i] != ' ')
+		{
+			s[n] = str[i];
+			i++;
+			n++;
+			continue;
+		}
+		if (str[i] == ' ')
+		{
+			if (s[0] != 0)
+			{
+				int ret = atoi(s);
+				num.push(ret);
+				n = 0;
+				s[0] = 0;
+				s[1] = 0;
+				i++;
+			}
+
+		}
+		int a = 0;
+		int b = 0;
+		switch (str[i])
+		{
+		case '+':
+			 a = num.top();
+			num.pop();
+			 b = num.top();
+			num.pop();
+			num.push(a + b);
+		
+			break;
+		case '-':
+			a = num.top();
+			num.pop();
+		    b = num.top();
+			num.pop();
+			num.push(a - b);
+			
+			break;
+		case '/':
+			a = num.top();
+			num.pop();
+			b = num.top();
+			num.pop();
+			num.push(a / b);
+			
+			break;
+		case '*':
+		 a = num.top();
+			num.pop();
+		b = num.top();
+			num.pop();
+			num.push(a * b);
+			
+			break;
+		default:
+			break;
+		}
+	}
+	return num.top();
+}
+
+int main()
+{
+	char *p = "12*(3+4)-6+8/2#";
+	int ret=PassNotation(p);
+	cout << endl;
+	cout << ret << endl;
+	system("pause");
+	return 0;
+}
