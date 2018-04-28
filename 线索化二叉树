@@ -1,0 +1,325 @@
+#include<iostream>
+#include<string.h>
+using namespace std;
+
+enum Object
+{
+	LINK,
+	THREAD
+};
+
+template<class T>
+struct ThreadNode
+{
+	ThreadNode(const T &d)
+	:data(d)
+	, LChild(NULL)
+	, RChild(NULL)
+	, parent(NULL)
+	, leftThread(LINK)
+	, rightThread(LINK)
+	{ }
+
+	T data;
+	ThreadNode<T>* LChild;
+	ThreadNode<T>* RChild;
+	ThreadNode<T>* parent;
+	Object leftThread;
+	Object rightThread;
+};
+template<class T>
+class BinTreeThead
+{
+public:
+	typedef ThreadNode<T> Thread;
+	typedef Thread*  pThread;
+	BinTreeThead()
+		:_pRoot(NULL)           //无参构造
+	{ }
+	BinTreeThead(const T * array, size_t size, const T& invalid)     //有参构造
+	{
+		size_t index = 0;
+		_CreateBinTreeThread(_pRoot, array, size, index, invalid);
+	}
+	////////////////////////////////////////////////////////////////////////
+	//1.前序线索化 
+	void PreThread()
+	{
+		pThread prev=NULL;
+		_PreThreading(_pRoot, prev);
+	}
+	void PreOrder()   //1.前序遍历
+	{
+		cout << "PreOrder:";
+		_PreOrder(_pRoot);
+		cout << endl;
+	}
+
+	// 1.前序线索化遍历 
+	void PreOrderNor()
+	{
+		_PreOrderNor(_pRoot);
+	}
+	//////////////////////////////////
+	// 2.中序线索化 
+	void InThread()
+	{
+		pThread prev=NULL;
+		_InThreading(_pRoot, prev);
+	}
+
+	void InOrder()    //2.中序遍历
+	{
+		cout << "InOrder:";
+		_InOrder(_pRoot);
+		cout << endl;
+	}
+	void InOrderNor()        // 2.中序线索化遍历 
+	{
+		_InOrderNor(_pRoot);
+	}
+	///////////////////////////////////
+	void PostThread()    // 3.后序线索化 
+	{
+		pThread prev = NULL;
+		_PostThrading(_pRoot,prev);
+	}
+	void PostOrder()     // 3.后序遍历
+	{
+		cout << "PostOrder:";
+		_PostOrder(_pRoot);
+		cout << endl;
+	}
+
+	void PostThreadNor()     // 3.后序线索化遍历
+	{
+		_PostThreadNor(_pRoot);
+	}
+
+private:
+	void _CreateBinTreeThread(pThread &pRoot, const T*array, size_t size, size_t &index, const T&invalid)    //创建一个二叉树
+	{
+		if (index < size&&array[index] != invalid)
+		{
+			pRoot = new Thread(array[index]);
+			_CreateBinTreeThread(pRoot->LChild, array, size, ++index, invalid);
+			if (pRoot->LChild)
+				pRoot->LChild->parent = pRoot;
+			_CreateBinTreeThread(pRoot->RChild, array, size, ++index, invalid);
+			if (pRoot->RChild)
+				pRoot->RChild->parent = pRoot;
+		}
+	}
+
+	void _PreOrder(pThread pRoot)     //1.前序遍历
+	{
+		if (pRoot == NULL)
+			return;
+		cout << pRoot->data << " ";
+		_PreOrder(pRoot->LChild);
+		_PreOrder(pRoot->RChild);
+	}
+	void _InOrder(pThread pRoot)      //2.中序遍历
+	{
+		if (pRoot == NULL)
+			return;
+		_InOrder(pRoot->LChild);
+		cout << pRoot->data << " ";
+		_InOrder(pRoot->RChild);
+	}
+	void _PostOrder(pThread pRoot)      //3.后序遍历
+	{
+		if (pRoot == NULL)
+			return;
+		_PostOrder(pRoot->LChild);
+		_PostOrder(pRoot->RChild);
+		cout << pRoot->data << " ";
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void _PreThreading(pThread pRoot, pThread& prev)    //1.前序线索化
+	{
+		if (pRoot == NULL)
+			return;
+		//线索化当前结点的左指针域
+		if (pRoot->LChild == NULL)
+		{
+			pRoot->LChild = prev;
+			pRoot->leftThread = THREAD;
+		}
+		//线索化上一个节点的右指针域
+		if (prev!=NULL&&prev->RChild==NULL)
+		{
+			prev->RChild = pRoot;
+			prev->rightThread = THREAD;
+		}
+
+		prev = pRoot;
+		if (pRoot->leftThread == LINK)
+		{
+			_PreThreading(pRoot->LChild, prev);
+		}
+		if (pRoot->rightThread == LINK)
+		{
+			_PreThreading(pRoot->RChild, prev);
+		}
+	}
+	void _PreOrderNor(pThread pRoot)   //1.前序线索化遍历
+	{
+		if (pRoot == NULL)
+			return;
+		pThread ret = pRoot;
+		while (ret)
+		{
+			while (ret&&ret->leftThread == LINK)
+			{
+				cout << ret->data << " ";
+				ret = ret->LChild;
+			}
+			cout << ret->data << " ";
+			ret = ret->RChild;
+		}
+	}
+
+	// 中序：左子树--->根节点--->右子树 
+	void _InThreading(pThread pRoot, pThread& prev)      //2.中序线索化
+	{
+		if (pRoot == NULL)
+			return;
+		_InThreading(pRoot->LChild,prev);
+		if (pRoot->LChild == NULL)
+		{
+			pRoot->LChild = prev;
+			pRoot->leftThread = THREAD;
+		}
+		if (prev != NULL&&prev->RChild == NULL)
+		{
+			prev->RChild = pRoot;
+			prev->rightThread = THREAD;
+		}
+		prev = pRoot;
+		_InThreading(pRoot->RChild,prev);
+	}
+	void _InOrderNor(pThread pRoot)           //2.中序线索化遍历
+	{
+		if (pRoot == NULL)
+			return;
+		pThread ret = pRoot;
+		while (ret)
+		{
+			//找到最左边的节点
+			while (ret->leftThread==LINK)
+			{
+				ret = ret->LChild;
+			}
+			cout << ret->data << " ";
+			//找中序后继节点
+			while (ret&&ret->rightThread == THREAD)
+			{
+				ret = ret->RChild;
+				cout << ret->data << " ";
+			}
+			//没有后继，有右孩子
+			ret = ret->RChild;
+		}
+	}
+	// 后序：左子树--->右子树 --->根节点
+	void _PostThrading(pThread pRoot, pThread& prev)      //3.后续线索化
+	{
+		if (pRoot == NULL)
+			return;
+		pThread ret = pRoot;
+		_PostThrading(pRoot->LChild, prev);
+		_PostThrading(pRoot->RChild, prev);
+		if (ret->LChild == NULL)
+		{
+			ret->LChild = prev;
+			ret->leftThread = THREAD;
+		}
+		if (prev!=NULL&&prev->RChild==NULL)
+		{
+			prev->RChild = pRoot;
+			prev->rightThread = THREAD;
+		}
+		prev = pRoot;
+	}
+	void _PostThreadNor(pThread pRoot)        //3.后序线索化遍历
+	{
+		if (pRoot == NULL)
+			return;
+		pThread ret=pRoot;
+		pThread prev=NULL;
+		while (ret)
+		{
+			while (ret->leftThread == LINK)   //找到最左边的节点
+			{
+				ret = ret->LChild;
+			}
+			while (ret&&ret->rightThread == THREAD)   //访问后继节点
+			{
+				cout << ret->data << " ";
+				prev = ret;
+				ret = ret->RChild;
+			}
+			if (ret->RChild == NULL&&ret == _pRoot || _pRoot->RChild ==prev)   //判断pCur是否指向了根节点
+			{
+				cout << _pRoot->data << endl;
+				return;
+			}
+			while (ret&&ret->RChild == prev)   //返回到它的双亲节点
+			{
+				cout << ret->data << " ";
+				prev = ret;
+				ret = ret->parent;
+			}
+			if (ret&&ret->rightThread== LINK)   //判断当前结点是否有右子树
+				ret = ret->RChild;
+			if (ret == _pRoot)
+			{
+				cout << _pRoot->data << endl;
+				return;
+			}
+		}
+	}
+
+private:
+	pThread _pRoot;
+};
+void test1()      //1.前序线索化
+{
+	char*p = "ABC###DE##F";
+	BinTreeThead<char> t1(p, strlen(p), '#');
+	t1.PreOrder();
+	t1.PreThread();
+	t1.PreOrderNor();
+}
+void test2()        //2.中序线索化
+{
+	char*p = "ABC###DE##F";
+	BinTreeThead<char> t1(p, strlen(p), '#');
+	t1.InOrder();
+	t1.InThread();
+	t1.InOrderNor();
+}
+void test3()       //3.后序线索化
+{
+	/*char*p = "ABC###DE##F";
+	BinTreeThead<char> t1(p, strlen(p), '#');
+	t1.PostOrder();
+	t1.PostThread();
+	t1.PostThreadNor();*/
+
+	char*p = "12#3##64#5##7";
+	BinTreeThead<char> t1(p, strlen(p), '#');
+	t1.PostOrder();
+	t1.PostThread();
+	t1.PostThreadNor();
+}
+int main()
+{
+	//test1();    //前序线索化
+	//test2();    //中序线索化
+	test3();
+	system("pause");
+	return 0;
+}
