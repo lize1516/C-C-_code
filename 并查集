@@ -1,0 +1,84 @@
+#pragma once
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+class UnionFindSet
+{
+public:
+	UnionFindSet(size_t size) 
+		:_n(size)
+	{
+		_set.resize(size,-1);
+	}
+
+	void Union(int root1, int root2)   //结合两个节点
+	{
+		int index = root1;
+		if (_set[root1] >= 0)
+			index = FindRoot(root1);
+
+		_set[index] += _set[root2];
+		_set[root2] =index;
+	}
+
+	size_t FindRoot(int index)   //找父节点的位置
+	{
+		if (_set[index] < 0)     //负数表示当前位置为父节点
+		{
+			return index;
+		}
+		int num = _set[index];
+		int set = 0;
+		while (num>=0)
+		{
+			set = num;
+			num = _set[num];
+		}
+		return set;
+	}
+
+	int Size()  //朋友圈的个数
+	{
+		int count= 0;
+		for (size_t i = 0; i < _n; i++)
+		{
+			if (_set[i] < 0)
+				count++;
+		}
+		return count;
+	}
+
+
+private:
+	vector<int> _set;
+	size_t _n;   //给定范围数据的个数
+};
+
+void test()
+{
+	UnionFindSet u1(10);
+	u1.Union(0,6);
+	u1.Union(6,7);
+	u1.Union(7,8);
+
+	u1.Union(1, 4);
+	u1.Union(1, 9);
+
+	u1.Union(2, 3);
+	u1.Union(2, 5);
+
+	u1.Union(1, 2);
+	u1.Size();
+
+}
+void test2()
+{
+	UnionFindSet u2(6);
+	u2.Union(1,2);
+	u2.Union(2, 3);
+	u2.Union(4,5);
+                       //0号位置没有使用，所以在算朋友圈的个数时要减去一个
+	cout << "朋友圈的个数：" << u2.Size() - 1 << endl;
+}
