@@ -1,0 +1,312 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<iostream>
+#include<vector>
+#include<assert.h>
+using namespace std;
+
+#if 0               
+template<class T>                //对称矩阵
+class SymmetricMatrix
+{
+public:
+	SymmetricMatrix(size_t row,size_t col,T*array)
+		:_row(row)
+		, _col(col)
+	{
+		int index = 0;
+		_v.resize(((1 + row)*row) >> 1);
+		for (size_t i = 0; i < row;i++)
+		for (size_t j = 0; j <= i; j++)
+			_v[index++] = array[i*col + j];
+	
+	}
+	T& Aescc(size_t row,size_t col)
+	{
+		if (row < col)
+			swap(row,col);
+		return _v[(((row + 1)*row) >> 1)+col];
+	}
+
+	void BackSymmetricMatrix( )
+	{
+		for (size_t i = 0; i < _row; i++)
+		{
+			for (size_t j = 0; j < _col; j++)
+			{
+				cout << Aescc(i, j) << " ";
+			}
+			cout << endl;
+		}
+	}
+
+private:
+	vector<T> _v;
+	size_t _row;
+	size_t _col;
+};
+
+int main()
+{
+	int a[5][5] = { 
+	{ 0, 1, 2, 3, 4 },
+	{ 1, 0, 1, 2, 3 },
+	{ 2, 1, 0, 1, 2 }, 
+	{ 3, 2, 1, 0, 1 },
+	{ 4, 3, 2, 1, 0 } };
+
+	SymmetricMatrix<int> sm(5,5,(int*)a);
+	/*int ret = sm.Aescc(2, 1);
+	cout << ret << endl;
+    ret = sm.Aescc(0, 3);
+	cout << ret << endl;*/
+	sm.BackSymmetricMatrix();
+
+	system("pause");
+	return 0;
+}
+#endif
+
+#if 1
+//稀疏矩阵
+template<class T>
+class SparseMatrix
+{
+public:
+	template<class T>
+	struct Trituple        //三元结构
+	{
+		Trituple(size_t row = 0, size_t col = 0, const T&data = T())
+		:_row2(row)
+		, _col2(col)
+		, _data(data)
+		{}
+		size_t _row2;
+		size_t _col2;
+		T _data;
+	};
+	SparseMatrix()
+	{ }
+	SparseMatrix(T*_array,size_t row, size_t col)
+		:_row(row)
+		, _col(col)
+		, invaild(0)
+	{
+		for (size_t i = 0; i < row; i++)
+		{
+			for (size_t j = 0; j < col; j++)
+			{
+				if (_array[i*col + j] != invaild)
+					_vm.push_back(Trituple<T>(i, j, _array[i*col + j]));
+			}
+		}
+	}
+	T&Aescc(size_t row,size_t col)
+	{
+		for (size_t i = 0; i < _vm.size(); i++)
+		{
+			if (_vm[i]._row2 == row&&_vm[i]._col2 == col)
+				return _vm[i]._data;
+		}
+		return invaild;
+	}
+	void displaySparseMatrix()        //打印稀疏矩阵
+	{
+	size_t index = 0;
+		for (size_t i = 0; i < _row; i++)
+		{
+			for (size_t j = 0; j < _col; j++)
+			{
+				if (index<_vm.size()&&_vm[index]._row2 == i&&_vm[index]._col2 == j)
+				{
+					cout << _vm[index]._data << " ";
+					index++;
+				}
+				else
+					cout << invaild<<" ";
+			}
+			cout << endl;
+		}
+	}
+
+	void ReverseMatrix()              //矩阵转置
+	{   
+		for (size_t i = 0; i < _col; i++)
+		{
+			for (size_t j = 0; j < _row; j++)
+			{
+				int flag = 0;  //标记  
+				size_t index = _vm.size();
+				while (index--)
+				{
+					if (_vm[index]._row2 == j&&_vm[index]._col2==i)
+					{
+						flag = 1;
+						cout << _vm[index]._data << " ";
+					}
+				}
+				if (flag==0)
+				cout << invaild << " ";
+			}
+			cout << endl;
+		}
+	}
+	friend ostream& operator<<(ostream&_cout, SparseMatrix<T>&m)
+	{
+		size_t index = 0;
+		for (size_t i = 0; i < m._row; i++)
+		{
+			for (size_t j = 0; j < m._col; j++)
+			{
+				if (index<m._vm.size() && m._vm[index]._row2 == i&&m._vm[index]._col2 == j)
+				{
+					_cout << m._vm[index]._data << " ";
+					index++;
+				}
+				else
+					_cout << m.invaild << " ";
+			}
+			cout << endl;
+		}
+		return _cout;
+	}
+
+	SparseMatrix<T>& operator+( SparseMatrix<T>& d)          //重载＋，实现两个矩阵的加法
+	{
+		assert(d._row==_row&&d._col==_col);
+		SparseMatrix<T> *tmp=new SparseMatrix<T>;
+		(*tmp)._col = _col;
+		(*tmp)._row = _row;
+		(*tmp).invaild = invaild;
+
+		size_t leftMatrix = 0;
+		size_t rightMatrix = 0;
+		size_t Addrleft = 0;
+		size_t Addrright = 0;
+		while (leftMatrix < _vm.size() && rightMatrix < d._vm.size())
+		{
+			Addrleft = _vm[leftMatrix]._row2*_col + _vm[leftMatrix]._col2;
+			Addrright = d._vm[rightMatrix]._row2*_col + d._vm[rightMatrix]._col2;
+			if (Addrleft>Addrright)
+			{
+				(*tmp)._vm.push_back(d._vm[rightMatrix]);
+				rightMatrix++;
+			}
+			else if (Addrleft < Addrright)
+			{
+				(*tmp)._vm.push_back(_vm[leftMatrix]);
+				leftMatrix++;
+			}
+			else
+			{
+				Trituple<T> ret;
+				ret._col2 = _vm[leftMatrix]._col2;
+				ret._row2 = _vm[leftMatrix]._row2;
+				ret._data = _vm[leftMatrix]._data + d._vm[rightMatrix]._data;
+				if (ret._data!=invaild)
+				(*tmp)._vm.push_back(ret);
+				leftMatrix++;
+				rightMatrix++;
+			}
+		}
+		while (leftMatrix < _vm.size())
+		{
+			(*tmp)._vm.push_back(_vm[leftMatrix]);
+			leftMatrix++;
+		}
+		while (rightMatrix < d._vm.size())
+		{
+			(*tmp)._vm.push_back(d._vm[rightMatrix]);
+			rightMatrix++;
+		}
+		return (*tmp);
+	}
+
+
+	SparseMatrix<T>& FastReverseMatrix()      //快速逆置
+	{
+		SparseMatrix<T> *Newm=new SparseMatrix<T>;
+		(*Newm)._row = _col;
+		(*Newm)._col = _row;
+		(*Newm).invaild = invaild;
+		(*Newm)._vm.resize(_vm.size());
+
+		//逆置成功后每一行有效元素的个数
+		int *count = new int[_col];
+		memset(count, 0, _col*sizeof(int));
+		for (size_t i = 0; i < _vm.size(); i++)
+			count[_vm[i]._col2]++;
+	//逆置成功后后每行的有效元素的起始地址
+		int *addr = new int[_col];
+		memset(addr, 0, _col*sizeof(int));
+		for (size_t i = 1; i < _col; i++)
+			addr[i] = addr[i - 1] + count[i - 1];
+		for (size_t i = 0; i < _vm.size(); i++)
+		{
+			int &rowAddr = addr[_vm[i]._col2];
+			(*Newm)._vm[rowAddr] = _vm[i];
+			swap((*Newm)._vm[rowAddr]._row2, (*Newm)._vm[rowAddr]._col2);
+			rowAddr++;
+		}
+		return (*Newm);
+	}
+
+	
+private:
+	vector <Trituple<T>> _vm;
+	size_t _row;
+	size_t _col;
+	T invaild;
+};
+void test1()          //加法
+{
+	int array1[6][5] = {
+		{ 1, 0, 3, 0, 5 },
+		{ 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0 },
+		{ 1, 0, 3, 0, 5 },
+		{ 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0 } };
+	SparseMatrix<int> sn1((int*)array1, 6, 5);   //存储一个稀疏矩阵
+	sn1.displaySparseMatrix();     //打印稀疏矩阵
+	cout << endl;
+
+	int array2[6][5] = {
+		{ 0, 0, 3, 0, 5 },
+		{ 0, 2, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0 },
+		{ 5, 0, -3, 0, 5 },
+		{ 0, 4, 0, 0, 0 },
+		{ 2, 0, 0, 0, 0 } };
+	SparseMatrix<int> sn2((int*)array2, 6, 5);   //存储一个稀疏矩阵
+	cout << sn2 << endl;
+	SparseMatrix<int> sn3 = sn1 + sn2;
+	cout << sn3;
+
+}
+
+void test2()     
+{
+	int array1[6][5] = {
+		{ 1, 0, 3, 0, 5 },
+		{ 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0 },
+		{ 1, 0, 3, 0, 5 },
+		{ 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0 } };
+	SparseMatrix<int> sn1((int*)array1, 6, 5);   //存储一个稀疏矩阵
+	cout << sn1 << endl;
+	sn1.ReverseMatrix();
+	//SparseMatrix<int> sn2=sn1.FastReverseMatrix();
+	//cout << sn2;
+}
+int main()
+{
+	
+	//test1();
+	test2();
+
+	system("pause");
+	return 0;
+}
+
+#endif
