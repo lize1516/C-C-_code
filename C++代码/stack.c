@@ -29,7 +29,7 @@ public:
 			int _size = s.Size();
 			data[NUMBER] = 0;
 			int i = 0;
-			for (i = 0; i<size; i++)
+			for (i = 0; i<_size; i++)
 			{
 				data[i] = s.data[i];
 				size++;
@@ -75,12 +75,11 @@ public:
 	{
 		return size;
 	}
-	void Swap(T*arr1, T*arr2)
+	void Swap(mystack<T> & s)
 	{
-		T data;
-		data = *arr1;
-		*arr1 = *arr2;
-		*arr2 = data;
+	       mystack<T> temp=(*this);
+		(*this)=s;
+		s=temp;
 	}
 
 private:
