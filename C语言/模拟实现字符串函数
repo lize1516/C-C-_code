@@ -1,0 +1,48 @@
+#define _CRT_SECURE_NO_WARNINGS 
+//strcpy函数
+#include<stdio.h>
+#include<stdlib.h>
+#include<assert.h>
+char* str_copy(char *des,const char *src)
+{  
+	/*char *ret = des;*/
+	assert(des != NULL);
+	assert(src != NULL);
+	while (*des++ = *src++)
+		;
+	return des;
+	/*return ret;*/
+}
+int main()
+{
+	char arr[20] = { 0 };
+	char* p = "You are handsome!";
+	/*char *p = NULL;*/
+	str_copy(arr, p);
+	printf("%s\n", arr);
+	system("pause\n");
+	return 0;
+}
+
+//strlen函数
+#include <stdio.h>
+#include<stdlib.h>
+int str_len(const char *arr)
+{
+	int count = 0;
+	while (*arr != '\0')
+	{
+		count++;
+		arr++;
+	}
+	return count;
+}
+int main()
+{
+	int num = 0;
+	  const char arr[] = "abcdefg";
+	 num=str_len(arr);
+	 printf("%d\n", num);
+	 system("pause\n");
+	 return 0;
+}
