@@ -1,0 +1,54 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+//#include <stdio.h>
+//#include<stdlib.h>
+//int main()
+//{
+//	int i = 0, j = 0;
+//	int n = 0;
+//	scanf("%d", &n);
+//	{
+//		for (i = 1; i <= n; i++)
+//	   {
+//		for (j = 0; j < n - i; j++)
+//			printf(" ");
+//		for (j = 0; j < (2 * i - 1); j++)
+//			printf("*");
+//		printf("\n");
+//	   }
+//	for (i = 1; i < n; i++)
+//	   {
+//		for (j = 0; j < i; j++)
+//			printf(" ");
+//		for (j = 0; j < (2 * (n - i) - 1); j++)
+//			printf("*");
+//		printf("\n");
+//	   }
+//	}
+//	system("pause\n");
+//	return 0;
+//}
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+	int count = 0;
+	char ch;
+	while ((ch = getchar())!= EOF)
+	{
+		if (ch == '{')
+			count++;
+		 else if ((ch == '}') && (count == 0))
+		{
+			count = 1;
+			break;
+		}
+		else if (ch == '}')
+			count--;
+	}
+	if (count == 0)
+		printf("匹配\n");
+	else 
+		printf("不匹配\n");
+	system("pause\n");
+	return 0;
+}
