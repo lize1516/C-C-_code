@@ -1,5 +1,5 @@
-//16.ÊýÖµµÄÕûÊý´Î·½
-double Power(double base, int exponent)    //µ±exponentÊäÈë¸ºÊý»á³ö´í
+//16.æ•°å€¼çš„æ•´æ•°æ¬¡æ–¹
+double Power(double base, int exponent)    //å½“exponentè¾“å…¥è´Ÿæ•°ä¼šå‡ºé”™
 {
 	double num = 1;
 	while (exponent--)
@@ -8,9 +8,10 @@ double Power(double base, int exponent)    //µ±exponentÊäÈë¸ºÊý»á³ö´í
 	}
 	return num;
 }
-///////////////////////////////////////////////////////////////
+/////////////////æ–¹æ³•2//////////////////////////////////////////////
 bool g_flag = false;
-double PowerWithUnsignedExponent(double base, unsigned int exponent);
+double PowerWithUnsignedExponent1(double base, unsigned int exponent);
+double PowerWithUnsignedExponent2(double base, unsigned int exponent);
 double Power2(double base, int exponent)
 {
 	g_flag = false;
@@ -24,13 +25,15 @@ double Power2(double base, int exponent)
 	unsigned int absExponent=(unsigned int)(exponent);
 	if (exponent < 0)
 		absExponent = (unsigned int)(-exponent);
-	double result = PowerWithUnsignedExponent(base, absExponent);
+	//double result = PowerWithUnsignedExponent1(base, absExponent);
+	double result = PowerWithUnsignedExponent2(base, absExponent);
 	if (exponent < 0)
 		result = 1.0 / result;
 
 	return result;
 }
-double PowerWithUnsignedExponent(double base, unsigned int exponent)
+
+double PowerWithUnsignedExponent1(double base, unsigned int exponent)   //å…ˆå¯¹baseæ•°æ±‚æ¬¡æ–¹ï¼Œç„¶åŽæ±‚å€’
 {
 	double result = 1.0;
 	while (exponent--)
@@ -39,7 +42,21 @@ double PowerWithUnsignedExponent(double base, unsigned int exponent)
 	}
 	return result;
 }
-//////////////////////////////////////////////////////////////
+double PowerWithUnsignedExponent2(double base, unsigned int exponent)  //ä½¿ç”¨é€’å½’ï¼Œåˆ†å¥‡å¶æ¬¡æ–¹ï¼Œæ•ˆçŽ‡é«˜
+{
+	if (exponent == 0)
+		return 1;
+	if (exponent == 1)
+		return base;
+
+	double result = PowerWithUnsignedExponent2(base, exponent >> 1);
+	result = result*result;
+	if ((exponent & 0x1) == 1)
+		result *= base;
+
+	return result;
+}
+
 void test16()
 {
 	double num = Power2(5,-2);
