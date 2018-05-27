@@ -1,3 +1,52 @@
+///////////////////////////////////////////将一个字符串中的以单词为基本单位，逆置
+void _reverse_way(char* start,char* end)
+{
+	char ch;
+	while (start < end)
+	{
+		ch = *start;
+		*start = *end;
+		*end = ch;
+		start++;
+		end--;
+	}
+}
+void reverse_string(char * str)
+{
+	if (str == NULL)
+		return;
+	int len = strlen(str);
+	char*start = str;
+	char*end = str + len-1;
+	_reverse_way(start, end);
+	while (*start!='\0')
+	{
+		char* head = start;
+		while (*start != ' '&&(*start!='\0'))
+		{
+			start++;
+		}
+		end = start - 1;
+		_reverse_way(head, end);
+		if (*start == ' ')
+			start++;
+	}
+
+}
+int main()
+{
+	char p[100] = {0};
+	gets(p);
+	reverse_string(p);
+
+	cout << p << endl;
+	system("pause");
+	return 0;
+}
+
+
+
+
 //////////////////////2///////////////////////////
 int InversePairs(vector<int> data) {
 	int end = 0;
