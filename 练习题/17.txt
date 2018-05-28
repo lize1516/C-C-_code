@@ -1,0 +1,26 @@
+//17.打印从1到最大的n位数
+/////////////////////////////////////////////
+#include<windows.h>
+
+void print_N_Max1(int n)    //当最大的n位数大于整型的范围时，溢出
+{
+	int num = 1;
+	while (n--)
+	{
+		num = num * 10;
+	}
+	for (int i = 1; i < num; i++)
+	{
+		printf("%d ,\t",i);
+	}
+	printf("\n");
+}
+//////////////////////////////////////////////
+void test17()
+{
+	int n = 3;
+	//print_N_Max1(n);
+	//print_N_Max2(n);
+	print_N_Max3(n);
+
+}
