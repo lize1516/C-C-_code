@@ -24,17 +24,20 @@ bool find_str(string min,string s)
 			return true;
 		else if (min[i] == s[j])
 		{
-			i++;
-			j++;
+			if (size1 - i < size2 - j)
+				j++;
+			else if (size1 - i >size2 - j)
+				i++;
+			else
+			{
+				i++;
+				j++;
+			}
 		}
 		else
 			return false;
 	}
-	if (i == size1)
-		return false;
-	else
-		return true;
-
+	return true;
 }
 string PrintMinNumber(vector<int> numbers) {
 	int size = numbers.size();
@@ -67,7 +70,7 @@ string PrintMinNumber(vector<int> numbers) {
 }
 int main()
 {
-	int str[] = { 3,5,1,4,2 };
+	int str[] = { 3334,3,3333332};
 	int size = sizeof(str) / sizeof(str[0]);
 	vector<int> arr;
 	for (int i = 0; i < size; i++)
@@ -75,7 +78,7 @@ int main()
 		arr.push_back(str[i]);
 	}
 	string s2=PrintMinNumber(arr);
-
+	cout << s2 << endl;
 	system("pause");
 	return 0;
 }
