@@ -1,0 +1,15 @@
+bool duplicate(int numbers[], int length, int* duplication) {
+	
+	int *arr = new int[length];
+	memset(arr, 0, length*sizeof(int));
+	for (int i = 0; i < length; i++)
+	{
+		arr[numbers[i]]++;
+		if (arr[numbers[i]] == 2)
+		{
+			*duplication = numbers[i];
+			return true;
+		}
+	}
+	return false;
+}
