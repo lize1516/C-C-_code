@@ -1,0 +1,86 @@
+//右旋链表
+
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+};
+
+void Init(ListNode** head)
+{
+	*head = NULL;
+}
+void Push_back(ListNode** list, int d)
+{
+	ListNode* head = *list;
+	ListNode* newNode = new ListNode(d);
+
+	if (head == NULL)
+	{
+		*list = newNode;
+	}
+	else
+	{
+		ListNode* tail = head;
+		while (tail->next)
+		{
+			tail = tail->next;
+		}
+		tail->next = newNode;
+	}
+}
+int Count(ListNode* head)
+{
+	int count = 0;
+	while (head)
+	{
+		head = head->next;
+		count++;
+	}
+	return count;
+}
+ListNode *rotateRight(ListNode *head, int k) {
+	if (head == NULL)
+		return NULL;
+	int num = k%Count(head);
+
+	if (num== 0)
+		return head;
+	ListNode* first = head;
+	ListNode* slow = head;
+	ListNode* newhead = NULL;
+	while (num--)
+	{
+		if (first == NULL)
+			return NULL;
+		first = first->next;
+	}
+	if (first==NULL)
+		return head;
+
+	while (first->next)
+	{
+		first = first->next;
+		slow = slow->next;
+	}
+	ListNode* tail = first;
+	newhead = slow->next;
+	slow->next = NULL;
+	first->next = head;
+	
+	return newhead;
+}
+int main()
+{
+	ListNode* list;
+	Init(&list);
+	Push_back(&list, 1);
+	Push_back(&list, 2);
+	Push_back(&list, 3);
+	Push_back(&list, 4);
+	Push_back(&list, 5);
+
+	ListNode* ret = rotateRight(list, 6);
+	system("pause");
+	return 0;
+}
