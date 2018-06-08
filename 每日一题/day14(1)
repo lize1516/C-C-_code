@@ -1,0 +1,38 @@
+//将搜索二叉树转换成双向链表
+#include<queue>
+struct TreeNode {
+	int val;
+	struct TreeNode *left;
+	struct TreeNode *right;
+	TreeNode(int x) :
+		val(x), left(NULL), right(NULL) {
+	}
+};
+
+void Change(TreeNode*head,TreeNode* & prev)
+{
+	if (head == NULL)
+		return;
+	Change(head->left, prev);   //找到最左侧的节点
+	head->left = prev;
+
+	if (prev != NULL)
+		prev->right = head;
+	
+	prev = head;
+	Change(head->right, prev);
+}
+TreeNode* Convert(TreeNode* pRootOfTree)
+{
+	if (pRootOfTree == NULL)
+		return NULL;
+	TreeNode* head = pRootOfTree;
+	while (head->left != NULL)
+	{
+		head = head->left;
+	}
+	TreeNode* prev = NULL;
+	Change(pRootOfTree,prev);
+	
+	return head;
+}
