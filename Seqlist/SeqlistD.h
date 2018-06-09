@@ -31,6 +31,6 @@ void RemoveAll(p ps, Datatype d);
 void Reverse(p ps);
 void Sort(p ps);
 int BinarySearch(p ps, Datatype d);
-void ReleaseSpace(p ps);    //�ͷſռ亯��
+void ReleaseSpace(p ps);    //释放空间
 
 #endif //__SEQLIST_H__
