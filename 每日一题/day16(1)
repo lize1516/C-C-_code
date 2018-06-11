@@ -1,0 +1,28 @@
+//删除链表倒数第k个节点
+ListNode *removeNthFromEnd(ListNode *head, int n) {
+        ListNode *fast = head;  
+        ListNode *slow = head;  
+        ListNode *tmp=NULL;
+        
+        while(n--)
+            fast=fast->next;
+  
+        if(fast != NULL)  
+        {  
+            while(fast->next)  
+            {  
+                fast = fast->next;  
+                slow = slow->next;  
+            }  
+  
+            tmp = slow->next;  
+            slow->next = tmp->next;  
+        }  
+        else  
+        {  
+            tmp = head;  
+            head = head->next;  
+        }  
+        delete tmp;  
+        return head; 
+    }  
