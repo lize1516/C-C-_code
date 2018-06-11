@@ -1,0 +1,45 @@
+ //单链表排序
+ListNode* mergeList(ListNode* list1,ListNode* list2)
+    {
+        ListNode* newHead=new ListNode(-1);
+        ListNode* cur=newHead;
+        while(list1!=NULL&&list2!=NULL)
+        {
+            if(list1->val<=list2->val)
+            {
+                cur->next=list1;
+                list1=list1->next;
+            }
+            else
+            {
+                cur->next=list2;
+                list2=list2->next;
+            }
+            cur=cur->next;
+        }
+        //cur->next=(list1!=NULL ? list1:list2);
+        if(list1==NULL)
+            cur->next=list2;
+        else
+            cur->next=list1;
+        cur=newHead->next;
+        delete newHead;
+        return cur;
+    }
+    
+    ListNode *sortList(ListNode *head) {
+        if(head==NULL||head->next==NULL)
+            return head;
+        ListNode* first=head;
+        ListNode* slow=head;
+        while(first!=NULL&&first->next!=NULL)
+         {
+               first=first->next-next;
+	slow=slow->next;
+         }
+      
+        ListNode* next=slow->next;
+            mid->next=NULL;
+        return mergeList(sortList(head),sortList(next));
+    }
+
