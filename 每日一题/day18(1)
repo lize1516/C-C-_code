@@ -1,0 +1,28 @@
+//封装一个栈，可以获取最小值
+#include<stack>
+bool IsPopOrder(vector<int> pushV, vector<int> popV) {
+	int len = pushV.size();
+	stack<int> s1;
+	int i = 0;
+	int j =0;
+	for (i = 0; i < len; i++)
+	{
+		if (pushV[i] != popV[j])
+		{
+			s1.push(pushV[i]);
+		}
+		else if (pushV[i] == popV[j])
+		{
+			j++;
+		}
+	}
+	while (j < len)
+	{
+		if (s1.top() != popV[j])
+			return false;
+
+		s1.pop();
+		j++;
+	}
+	return true;
+}
