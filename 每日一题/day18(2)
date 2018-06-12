@@ -1,0 +1,34 @@
+//封装栈，可以获取最小值
+#include<stack>
+stack<int> s1, minnum;
+void push(int value) {
+	s1.push(value);
+	if (minnum.empty())
+		minnum.push(value);
+	else
+	{
+		if (minnum.top() > value)
+		{
+			minnum.push(value);
+		}
+		else
+			minnum.push(minnum.top());
+	}
+}
+void pop() {
+	if (!s1.empty())
+	{
+		s1.pop();
+		minnum.pop();
+	}
+}
+int top() {
+	if (!s1.empty())
+		return s1.top();
+	return 0;
+}
+int min() {
+	if (!minnum.empty())
+		return minnum.top();
+	return 0;
+}
