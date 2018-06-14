@@ -1,0 +1,68 @@
+//堆栈的使用1
+#if 0
+#include<stack>
+
+stack<int> s1;
+stack<char> result1;
+stack<char> result2;
+
+void test()
+{
+	int n = 0;
+	int temp = 0;
+	char ch;
+	while (cin >> n)
+	{
+		while (n--)
+		{
+			cin >> ch;
+			switch (ch)
+			{
+			case 'P':
+				cin >> temp;
+				s1.push(temp);
+				break;
+			case 'A':
+				if (s1.empty())
+					result1.push('E');
+				else
+					result1.push(s1.top() + '0');
+				break;
+			case 'O':
+				if (!s1.empty())
+					s1.pop();
+				break;
+			default:
+				break;
+			}
+		}
+		result1.push('\n');
+	}
+		cout << endl;
+	
+	int _size = result1.size();
+	int i = 0;
+	for (i = 0; i < _size; i++)
+	{
+		result2.push(result1.top());
+		result1.pop();
+	}
+	for (i = 0; i < _size; i++)
+	{
+		if (result2.top() == '\n')
+			cout << endl;
+		else
+		cout << result2.top() << endl;
+
+		result2.pop();
+	}
+}
+
+int main()
+{
+	test();
+
+	system("pause");
+	return 0;
+}
+//////终止输入 ctrl+z    enter
