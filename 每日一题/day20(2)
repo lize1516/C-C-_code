@@ -1,0 +1,40 @@
+//创造一个结构，int[][2] (ope的参数),第一个参数为1表示push ，第一个参数为2 表示pop
+
+vector<vector<int> > setOfStacks(vector<vector<int> > ope, int size) {
+	vector<vector<int>> st;
+	vector<int> temp;    //临时数组保存数据
+	int i = 0;
+	for (i = 0; i < ope.size(); i++)
+	{
+		//入栈
+		if (ope[i][0] == 1)
+		{
+			if (temp.size() == size)
+			{
+				st.push_back(temp);
+				temp.clear();
+				temp.push_back(ope[i][1]);
+			}
+			else
+			temp.push_back(ope[i][1]);
+		}
+
+		//出栈
+		if (ope[i][0] == 2)
+		{
+			if (temp.size() != 0)
+				temp.pop_back();
+			else if (st.size() != 0)
+			{
+				temp = st[st.size() - 1];
+				temp.pop_back();
+				st.pop_back();
+			}
+		}
+	}
+	if (temp.size() != 0)
+		st.push_back(temp);
+
+	return st;
+
+}
