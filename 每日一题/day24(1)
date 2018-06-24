@@ -1,0 +1,23 @@
+//判断一棵二叉树是否平衡
+int High(TreeNode* head)
+    {
+        if(head==NULL)
+            return 0;
+        if(head->left==NULL&&head->right==NULL)
+            return 1;
+        int left=High(head->left);
+        int right=High(head->right);
+        return left>right?(left+1):(right+1);
+    }
+    
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+        if(pRoot==NULL)
+            return true;
+        int left=High(pRoot->left);
+        int right=High(pRoot->right);
+        int cur=left-right;
+        if(cur>1||cur<-1)
+        return false;
+        else
+            return IsBalanced_Solution(pRoot->left)&&IsBalanced_Solution(pRoot->right);
+    }
