@@ -1,0 +1,16 @@
+ //后序遍历二叉树
+ void AfterOrder(TreeNode* head,vector<int>& ret)
+    {
+        if(head==NULL)
+            return;
+        AfterOrder(head->left,ret);
+        AfterOrder(head->right,ret);
+        ret.push_back(head->val);
+    }
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> ret;
+        if (root==NULL)
+            return ret;
+        AfterOrder(root,ret);
+        return ret;
+    }
