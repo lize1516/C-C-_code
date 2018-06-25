@@ -1,0 +1,33 @@
+//根据中序遍历和后续遍历创建二叉树，
+
+TreeNode* Bulid_tree(vector<int> inorder,int Infirst,int Inend,vector<int>postorder,int Pfirst,int Pend)
+    {
+        if (Infirst> Inright || Pfirst > Pend) 
+              return NULL;
+        int mid=Pend;
+        TreeNode* head=new TreeNode(postorder[mid]);
+ 
+        int i=0;
+        for(i=0;mid<=Inend;i++)
+        {
+            if(inorder[i]==postorder[mid])
+            {
+                break;
+            }
+        }
+        head->left=Bulid_tree(inorder,Infirst,i-1,postorder,Pfirst,Pfirst+i-Infirst-1);
+        head->right=Bulid_tree(inorder,Infirst+i+1,Inend,postorder,mid,Pend-1);
+        return head;
+    }
+    TreeNode *buildTree(vector<int> &inorder, vector<int> &postorder) {
+        int len=inorder.size();
+        if(len==0)
+            return NULL;
+        
+        int Infirst=0;
+        int Inend=len-1;
+        int Pfirst=0;
+        int Pend=len-1;
+        TreeNode* newroot=Bulid_tree(inorder,Infirst,Inend,postorder,Pfirst,Pend);
+        return newroot;
+    }
