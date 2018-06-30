@@ -1,0 +1,45 @@
+//对比两个字符串，找出缺少的字符
+#include<set>
+#include<string>
+int main()
+{
+	string input;
+	string real;
+	while (cin>> input)
+	{
+		cin >> real;
+		int size1 = input.size();
+		int size2 = real.size();
+		string ret;
+		int i = 0;
+		for (i = 0; i < size1; i++)
+		{
+			int j = 0;
+			for (; j < size2; j++)
+			{
+				if (input[i] == real[j])
+					break;
+			}
+			if (j == size2)
+			{
+				if (input[i]<'0' || input[i]>'9')
+					input[i]=toupper(input[i]);
+				int m = 0;
+				for (m = 0; m < ret.size(); m++)
+				{
+					if (input[i] == ret[m])
+						break;
+				}
+				if (m == ret.size())
+					 ret.push_back(input[i]);
+			}
+		}
+		for (int m = 0; m < ret.size(); m++)
+		{
+			cout << ret[m];
+		}
+		cout << endl;
+	}
+	system("pause");
+	return 0;
+}
