@@ -1,0 +1,20 @@
+//找n！尾端0的个数
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int n=0;
+    int k=0,sum=0;
+    cin>>n;
+    k=n;
+    while(k)
+    {
+        k/=5;   //乘以一次5就多一个0，根据乘5的次数，判断0的个数
+        sum+=k;
+    }
+    cout<<sum<<endl;
+   
+    return 0;
+}
