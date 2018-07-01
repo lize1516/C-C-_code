@@ -1,0 +1,38 @@
+//32.从上到下打印二叉树
+#include<queue>
+typedef struct Node
+{
+	int data;
+	Node* left;
+	Node* right;
+}Node;
+//前序遍历生成一棵二叉树
+class BinaryTree
+{
+public:
+	BinaryTree()
+	{
+		Root = NULL;
+	}
+	BinaryTree(int* arr, int size)
+	{
+		int index = 0;
+		Insert(Root, arr, size, index);
+	}
+	void Print()               //32、不分层打印
+	{
+		queue<Node*> q1;
+		if (Root == NULL)
+			return;
+		q1.push(Root);
+		while (!q1.empty())
+		{
+			Node* ret = q1.front();
+			q1.pop();
+			cout << ret->data << ",";
+			if (ret->left != NULL)
+				q1.push(ret->left);
+			if (ret->right != NULL)
+				q1.push(ret->right);
+		}
+	}
