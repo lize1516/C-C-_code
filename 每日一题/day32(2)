@@ -1,0 +1,22 @@
+//求x的平方根
+
+
+//牛顿迭代法   X[n +1]=1/2*(X[n]+a/X[n]),  a is x^2
+// 单纯的整数开方数直接二分迭代
+
+int  Sqrt(int x)
+{
+    if(x==0||x<0)
+        return 0;
+    int y=x/2;
+    while(1)
+    {
+        y=max(y,1);
+        long long k1=1L*y*y;
+        long long k2=1L*(y+1)*(y+1);
+        if(k1<=x&&k2>x)
+          return y;
+        y=(y+x/y)/2;
+    }
+  return y;
+}
