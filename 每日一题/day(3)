@@ -29,5 +29,5 @@ TreeNode* Bulid_tree(vector<int> inorder,int Infirst,int Inend,vector<int>postor
         int Pfirst=0;
         int Pend=len-1;
         TreeNode* newroot=Bulid_tree(inorder,Infirst,Inend,postorder,Pfirst,Pend);
-      
+          return newroot;
     }
