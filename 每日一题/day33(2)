@@ -1,0 +1,30 @@
+Given a collection of numbers, return all possible permutations.
+
+For example,
+[1,2,3]have the following permutations:
+[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2], and[3,2,1].
+//罗列出所有不重复的组合
+/////////////////////////////////////////////////////////////////
+vector<vector<int> > permute(vector<int> &num) {
+        vector<vector<int>> ret;
+        if (num.size()==0)
+            return ret;
+        
+        ret.push_back(vector<int>(1,num[0]));
+        
+        for(int i=1;i<num.size();i++)
+        {
+            vector<vector<int>> tmp;
+            
+            for(int j=0;j<=i;j++)
+            {
+                for(auto p: ret)
+                {
+                    p.insert(p.begin()+j,num[i]);
+                    tmp.push_back(p);
+                }
+            }
+            ret=tmp;
+        }
+        return ret;
+    }
