@@ -20,7 +20,7 @@ unsigned int mysleep(unsigned int nsecs)
     sigaction(SIGALRM,&newact,&oldact);    //注册信号处理函数
 
     /////////////////////
-    sigemptyset(&newmask);
+    sigemptyset(&newmask);        //
     sigaddset(&newmask,SIGALRM);
     sigprocmask(SIG_BLOCK,&newmask,&oldmask );
     ////////////
