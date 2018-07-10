@@ -1,0 +1,12 @@
+//计算一个整型数字中二进制表示1的个数
+
+int count(int n)
+{
+  int count=0;
+  while(n)
+  {
+    n=n&(n-1);
+    count++;
+  }
+  return count;
+}
