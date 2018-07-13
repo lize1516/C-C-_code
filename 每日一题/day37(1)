@@ -1,0 +1,32 @@
+按层之字形打印二叉树
+
+//////////////////////////////
+vector<vector<int> > zigzagLevelOrder(TreeNode *root) {
+       vector<vector<int>> ret;
+	if (root == NULL)
+		return ret;
+	queue<TreeNode*> q;
+	q.push(root);
+	while (!q.empty())
+	{
+		queue<TreeNode*> cur;
+		vector<int> temp;
+		while (q.size() > 0)
+		{
+			TreeNode* pur = q.front();
+			q.pop();
+			if (pur->left)
+				cur.push(pur->left);
+			if (pur->right)
+				cur.push(pur->right);
+			temp.push_back(pur->val);
+		}
+		ret.push_back(temp);
+		q = cur;
+	}
+	for (int i = 1; i < ret.size(); i+=2)
+	{
+		reverse(ret[i].begin(),ret[i].end());
+	}
+	return ret;
+    }
