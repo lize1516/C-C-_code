@@ -39,3 +39,29 @@ int main()
 	system("pause");
 	return 0;
 }
+
+//////////////////////
+#include<algorithm>
+
+int  maxsum(vector<int> array)
+{
+	int size=array.size();
+	vector<int> cur(size);
+	int sum=0;
+	for(int i=0;i<size;i++)
+	{
+		sum+=array[i];
+		if(sum<0)
+		{
+			cur[i]=array[i];
+			sum=0;
+		}
+		else
+		cur[i]=sum;
+	}
+	sort(cur.begin(),cur.end());
+	return cur[size-1];
+}
+
+
+
