@@ -1,0 +1,41 @@
+//////////////牛分苹果
+int sortApple2(int n, vector<int> v)
+{
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		sum += v[i];
+	}
+	if (sum%n != 0)
+		return -1;
+	int average = sum / n;
+	int count = 0;
+	for (int m = 0; m < n; m++)
+	{
+		while (v[m] != average)
+		{
+			if (v[m] < average)
+				v[m] += 2;
+			else if (v[m]>average)
+				v[m] -= 2;
+			count++;
+		}
+	}
+	return count/2;
+}
+
+int main()
+{
+	int n = 0;
+	vector<int> arr(5);
+	cin >> n;
+	arr.resize(n);
+	for (int i = 0; i<n; i++)
+	{
+		cin >>arr[i];
+	}
+	cout << sortApple2(n, arr) << endl;;
+
+	system("pause");
+	return 0;
+}
