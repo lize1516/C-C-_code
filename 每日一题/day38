@@ -1,0 +1,67 @@
+
+//
+设置3个变量，分别代表数组前部zeroindex，当前遍历的位置 i，数组后部 twoindex
+①当A[i] = 0时，必然属于数组前部，则交换A[i] 和 A[zeroindex] ,接着i++ , zeroindex++
+②当A[i] = 1时，只需i++就好，因为只有排好了0和2,1自然就只能在中间了，故不作处理
+③当A[i] = 2时，不然属于数组后部，则交换A[i]和A[twoindex]，接着twoindex--，不过此时就不能i++了因为，
+交换过去的A[i]有可能是0或者2，所以需要在下一个循环里判断，这样它的位置才能够正确
+//
+//可以使用排序函数sort一步解决
+//sort(A,A+n);
+/////////////////////////////////////
+ void sortColors(int A[], int n) {
+  int left=0;
+        int right=n-1;
+        int i=0;
+        while(i<right+1)
+        {
+            if(A[i]==0)
+            {
+                swap(A[i],A[left]);
+                left++;
+                i++;
+            }
+            else if(A[i]==2)
+            {
+                swap(A[i],A[right]);
+                right--;
+            }
+            else
+                i++;
+        }
+    }
+///////////////////////////////////////////////////////////////////////////
+
+//两个数字字符串相乘，乘法运算
+string multiply(string num1, string num2) {
+       int m=num1.size();
+       int n=num2.size();
+       vector<int> res(m+n,0);
+       for(int j=n-1;j>=0;j--)
+       {
+           for(int i=m-1;i>=0;i--)
+           {
+               res[i+j+1]+=(num1[i]-'0')*(num2[j]-'0');
+           }
+       }
+        int carry=0;
+        for(int i=res.size()-1;i>=0;i--)
+        {
+            res[i]+=carry;
+            carry=res[i]/10;
+            res[i]%=10;
+        }
+       int i=0;
+        for(;i<res.size()-1;i++)    
+        {
+            if(res[i]!=0)
+                break;
+        }
+        string ret;
+        for(int j=i;j<res.size();j++)
+        {
+            //ret+=to_string(res[j]);
+            ret.push_back(res[j]+'0');
+        }
+        return ret;
+    }
