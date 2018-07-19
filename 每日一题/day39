@@ -1,0 +1,18 @@
+将一个数逆置后输出，例如：
+输入 123      输出 321
+输入 -123     输出 -321
+要考虑翻转后溢出的情况
+
+//
+int reverse2(int x) {
+	int num = 0, ret = 0;
+	while (x)
+	{
+		if (ret>INT_MAX / 10 || ret<INT_MIN / 10)
+			return 0;
+		num = x % 10;
+		ret = ret * 10 + num;
+		x = x / 10;
+	}
+	return ret;
+}
