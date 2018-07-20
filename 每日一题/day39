@@ -59,3 +59,51 @@ int main()
     }
     return 0;
 }
+//方法二：
+#include <iostream>
+#include <string>
+#include <set>
+using namespace std;
+ 
+int main()
+{
+    int n=0;
+    string s;
+    string cur="22233344455566677778889999";
+    while(cin>>n&&n)
+    {
+        set<string> data;
+        
+        for(int i=0;i<n;i++)
+        {
+            int temp=0;
+            string res;
+            cin>>s;
+            for(int j=0;j<s.size();j++)
+            {
+                if(s[j]>='A'&&s[j]<='Z')
+                {
+                    res+=cur[s[j]-'A'];
+                    temp++;
+                    if(temp==3)
+                        res+="-";
+                }
+                else if(s[j]>='0'&&s[j]<='9')
+                {
+                    res+=s[j];
+                    temp++;
+                    if(temp==3)
+                        res+="-";
+                }
+            }
+            data.insert(res);
+        }
+        for(set<string>::iterator it=data.begin();it!=data.end();it++)
+        {
+            cout<<*it<<endl;
+        }
+        cout<<endl;
+    }
+    return 0;
+}
+
