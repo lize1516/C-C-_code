@@ -16,3 +16,45 @@ int reverse2(int x) {
 	}
 	return ret;
 }
+
+///////////////////////////////////////////
+上图是一个电话的九宫格，如你所见一个数字对应一些字母，因此在国外企业喜欢把电话号码设计成与自己公司名字相对应。
+例如公司的Help Desk号码是4357，因为4对应H、3对应E、5对应L、7对应P，因此4357就是HELP。同理，TUT-GLOP就代
+表888-4567、310-GINO代表310-4466。
+NowCoder刚进入外企，并不习惯这样的命名方式，现在给你一串电话号码列表，请你帮他转换成数字形式的号码，
+并去除重复的部分。
+
+#include <iostream>
+#include <string>
+#include <set>
+using namespace std;
+ 
+int main()
+{
+    int n=0;
+    string cur[2]={"ABCDEFGHIJKLMNOPQRSTUVWXYZ",\
+                   "22233344455566677778889999"};
+    while(cin>>n&&n)
+    {
+        string str,temp;
+        set<string,less<string>> s;
+        for(int i=0;i<n;i++)
+        {
+            cin>>str;
+            temp="";
+            for(char ch : str)
+            {
+                if(ch!='-'&&isalpha(ch))
+                    temp+=cur[1][toupper(ch)-'A'];
+                else if(ch!='-'&&isalnum(ch))
+                    temp+=ch;
+            }
+            temp.insert(temp.begin()+3,'-');
+            s.insert(temp);
+        }
+        for(string str: s)
+            cout<<str<<endl;
+        cout<<endl;
+    }
+    return 0;
+}
