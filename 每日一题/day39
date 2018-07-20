@@ -24,6 +24,7 @@ int reverse2(int x) {
 NowCoder刚进入外企，并不习惯这样的命名方式，现在给你一串电话号码列表，请你帮他转换成数字形式的号码，
 并去除重复的部分。
 
+//方法一：
 #include <iostream>
 #include <string>
 #include <set>
