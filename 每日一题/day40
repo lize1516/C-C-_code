@@ -1,0 +1,36 @@
+//打印字符串中的字符，相同字符只打印一次
+
+//方法一
+void Print(char* arr)
+{
+	int temp[256] = { 0 };
+	char *head = arr;
+	while (*head != '\0')
+	{
+		temp[*head]++;
+		head++;
+	}
+	while (*arr != '\0')
+	{
+		if (temp[*arr] != 0)
+		{
+			cout << *arr;
+			temp[*arr] = 0;
+		}
+		arr++;
+	}
+	cout << endl;
+}
+int main()
+{
+	char str[100]={0};
+	while (cin >> str)
+	{
+		Print(str);
+		memset(str, 0, sizeof(str));
+	}
+
+	system("pause");
+	return 0;
+}
+///////////方法二
