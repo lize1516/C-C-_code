@@ -1,4 +1,4 @@
-//打印字符串中的字符，相同字符只打印一次
+//1.打印字符串中的字符，相同字符只打印一次
 
 //方法一
 void Print(char* arr)
@@ -60,3 +60,147 @@ int main()
 	}
 	return 0;
 }
+
+
+/////////////////////////////////////////////////////////////////////////////
+//2.高精度加法，两个字符串相加，将值以字符串的形式输出
+#include <iostream>
+#include<algorithm>
+using namespace std;
+
+///////方法一，有漏洞，只能计算同正或同负的数
+string Add_Num(string bigNum, string smallNum,char ch)      //第一个参数是绝对值较大的数，第二个是绝对值较小的数,
+{                                                           //ch 为‘-’表示第一个参数为负，为‘+’表示第一个参数为正
+	int temp = 0, c = 0;
+	string ret;
+	for (int i = bigNum.size() - 1; i > 0; i--)
+	{
+		temp = (bigNum[i] - '0') - (smallNum[i] - '0') - c;
+		if (temp < 0)
+		{
+			temp = temp + 10;
+			c = 1;
+		}
+		else
+			c = 0;
+		ret += to_string(temp);
+	}
+
+	if (ch=='-')
+	{
+		int i = ret.size() - 1;          //返回字符串ret的最后一个字符
+		while (ret[i]=='0')
+		{
+				ret.pop_back();
+				i--;
+		}
+		ret += '-';
+	}
+	else if (ch == '+')
+	{
+			temp = (bigNum[0]-'0') - c;
+			ret += to_string(temp);
+
+		int i = ret.size() - 1;          //返回字符串ret的最后一个字符
+		while (ret[i] == '0')
+		{
+			ret.pop_back();
+			i--;
+		}
+	}
+	return ret;
+}
+
+string PrintAdd(string num1, string num2)
+{
+	string ret;
+	int temp = 0;        //临时变量，计算时使用
+	int c = 0;           //c表示进位
+	if (num1.size() != num2.size())    //补0，将两个字符串变成一样长
+	{
+		while (num1.size() > num2.size())
+		{
+			if (num2[0] == '-')
+				num2.insert(1, 1, '0');
+			else
+			    num2.insert(0, 1, '0');
+		}
+
+		while (num1.size() < num2.size())
+		{
+			if (num1[0] == '-')
+				num1.insert(1, 1, '0');
+			else
+			    num1.insert(0, 1, '0');
+		}
+	}
+
+	if (num1[0] != '-'&&num2[0] != '-')                 //两个正数相加
+	{
+		for (int i = num1.size() - 1; i >= 0; i--)      //按位相加，从低位开始
+		{
+			temp = (num1[i] - '0') + (num2[i] - '0') + c;
+			if (temp>9)
+			{
+				temp = temp % 10;    //结果保存个位
+				c = 1;               //有进位
+			}
+			else
+				c = 0;          //进位清0
+			ret += to_string(temp);
+		}
+		if (c != 0)
+			ret += "1";         //最高位有进位
+		reverse(ret.begin(), ret.end());         //逆置字符串ret，因为保存时是从低位到高位，而输出要求时从高位到低位
+	}
+	else if (num1[0] == '-'&&num2[0] == '-')     //两个负数相加
+	{
+		for (int i = num1.size() - 1; i>0; i--)  //最高位是符号不用处理
+		{
+			temp = (num1[i] - '0') + (num2[i] - '0') + c;
+			if (temp>9)
+			{
+				temp = temp % 10;
+				c = 1;
+			}
+			else
+				c = 0;
+			ret += to_string(temp);
+		}
+		if (c != 0)
+			ret += "1";   //最高位产生进位
+		ret += '-';       //添加符号‘-’
+		reverse(ret.begin(), ret.end());
+	}
+	else if (num1[0] != '-'&&num2[0] == '-')        //第一个数字为正数，第二个为负数
+	{
+		if ((num1[0]-'0') == 0 && num1[1]<num2[1])
+			ret=Add_Num(num2,num1,'-');             //Add_Num 第一个参数为绝对值较大的数，第二个是绝对值较小的数
+		                                            //第三个参数表示第一个参数是正还是负
+		else
+			ret=Add_Num(num1,num2,'+');
+		
+		reverse(ret.begin(), ret.end());
+	}
+	else if (num1[0] == '-'&&num2[0] != '-')         //第一个数字为负数，第二个为正数
+	{
+		if ((num2[0] - '0') == 0 && num2[1] < num1[1])
+			ret = Add_Num(num1, num2, '-');
+		else
+			ret = Add_Num(num2, num1, '+');
+		reverse(ret.begin(), ret.end());
+	}
+	return ret;
+}
+int main()
+{
+	string num1, num2;
+	while (cin >> num1 >> num2)
+	{
+		cout << PrintAdd(num1, num2) << endl;
+	}
+	return 0;
+}
+
+
+
