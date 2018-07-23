@@ -68,7 +68,7 @@ int main()
 #include<algorithm>
 using namespace std;
 
-///////方法一，有漏洞，只能计算同正或同负的数
+///////
 string Add_Num(string bigNum, string smallNum,char ch)      //第一个参数是绝对值较大的数，第二个是绝对值较小的数,
 {                                                           //ch 为‘-’表示第一个参数为负，为‘+’表示第一个参数为正
 	int temp = 0, c = 0;
