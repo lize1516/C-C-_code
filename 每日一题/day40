@@ -34,3 +34,29 @@ int main()
 	return 0;
 }
 ///////////方法二
+#include <iostream>
+using namespace std;
+
+void one(string str)
+{
+	int i=0;
+	int temp[256]={0};
+	for(i;i<str.size();i++)
+	{
+		if(temp[str[i]]==0)
+		{
+			cout<<str[i];
+			temp[str[i]]=1;
+		}
+	}
+	cout<<endl;
+}
+int main()
+{
+	string str;
+	while(cin>>str)  //循环输入
+	{
+		one(str);
+	}
+	return 0;
+}
