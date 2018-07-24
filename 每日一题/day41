@@ -22,3 +22,44 @@ int main() {
     cout<<a[sum]<<endl;
     return 0;
 }
+
+///////////////////////////////////////////////////
+2.   输入： abcd12345ed125ss123058789
+      输出： 123058789,9
+
+#include <iostream>
+#include <string>
+using namespace std;
+int main()
+{  
+    string str;
+    while(cin>>str)
+    {
+        int i,max=0;
+        string temp;
+        string out;
+        for(i=0;i<str.size();i++)
+        {
+            if(str[i]>='0'&&str[i]<='9')
+            {
+                temp+=str[i];
+                while(str[i+1]>='0'&&str[i+1]<='9')
+                {
+                    i++;
+                    temp+=str[i];
+                }
+                if(temp.size()>max)
+                {
+                    max=temp.size();
+                    out=temp;
+                }
+                else if(temp.size()==max)
+                   out+=temp;
+            }
+            temp.clear();
+        }
+        cout<<out<<","<<max<<endl;
+    }
+    return 0;
+}
+
