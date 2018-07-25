@@ -1,0 +1,35 @@
+//1.给定一个十进制数M，以及需要转换的进制数N。将十进制数M转化为N进制数
+#include<iostream>
+#include<string>
+using namespace std;
+string Print(int m,int n)
+{
+    char cur[16];
+    if(m<0)
+        m=m*(-1);
+    for(int i=0;i<16;i++)
+    {
+        if(i<10)
+            cur[i]=i+'0';
+        else 
+            cur[i]=i-10+'A';
+    }
+    string ret;
+    while(m)
+    {
+        int index=m%n;
+        ret=cur[index]+ret;
+         m=m/n;
+    }
+    return ret;
+}
+int main()
+{
+    int m=0,n=0;
+    cin>>m>>n;
+       string ret=Print(m,n);
+       if(m<0)
+           cout<<'-';
+       cout<<ret<<endl;
+    return 0;
+}
