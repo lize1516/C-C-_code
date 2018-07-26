@@ -1,4 +1,4 @@
-//合并两条单调递增的链表
+//1.合并两条单调递增的链表
 #if 0
 struct ListNode {
 	int val;
@@ -51,4 +51,27 @@ ListNode* Merge(ListNode* pHead1, ListNode* pHead2)
 		tail->next = pHead1;
 
 	return ret;
+}
+
+//2.链表逆序
+#if 0
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+		val(x), next(NULL) {
+	}
+};
+ListNode* ReverseList(ListNode* pHead) {
+	ListNode* newhead = NULL;
+	ListNode* p = NULL;
+	while (pHead)
+	{
+		p = pHead->next;
+		pHead->next = newhead;
+		newhead = pHead;
+		pHead = p;
+	}
+	return newhead;
+
 }
