@@ -27,3 +27,39 @@ int main()
     
     return 0;
 }
+
+//2.个测试输入包含1个测试用例，一个字符串str，长度不超过255。
+//输出：在一行内输出str中里连续最长的数字串
+
+#include<iostream>
+#include<string>
+using namespace std;
+void Print(string str)
+{
+    int i=0;
+    int size=str.size();
+    string temp;
+    string ret;
+    while(i<size)
+    {
+        while(i<size&&str[i]>='0'&&str[i]<='9')
+        {
+            temp.push_back(str[i]);
+            i++;
+        }
+        if(temp.size()>ret.size())
+            ret=temp;
+        else if(temp.size()==ret.size())     //如果两个数字长度一样，将其合并输出
+            ret=ret+temp;        
+        temp.clear();
+        i++;
+    }
+    cout<<ret<<endl;
+}
+int main()
+{
+    string str;
+    cin>>str;
+    Print(str);
+    return 0;
+}
