@@ -1,0 +1,21 @@
+//返回链表倒数第k个节点（方法一）
+ListNode* FindKthToTail(ListNode* pListHead, unsigned int k) {
+       if(pListHead==NULL)
+           return NULL;
+        ListNode* fast=pListHead;
+        ListNode* slow=pListHead;
+        while(k--)
+        {
+            fast=fast->next;
+            if(fast==NULL&&k!=0)
+                return NULL;
+        }
+        if(fast==NULL)
+            return slow;
+        while(fast)
+        {
+            fast=fast->next;
+            slow=slow->next;
+        }
+        return slow;
+    }
