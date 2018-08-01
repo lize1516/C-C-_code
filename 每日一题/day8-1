@@ -33,3 +33,48 @@
         delete newhead;
         return ret;
     }
+
+//2.复杂链表的拷贝
+RandomListNode* Clone(RandomListNode* pHead)
+    {
+        if(pHead==NULL)
+            return NULL;
+        RandomListNode* temp=pHead;
+        RandomListNode* p=NULL;
+        while(temp)                       //插入新节点
+        {
+            p=temp->next;
+            RandomListNode* newNode=new RandomListNode(temp->label);
+            temp->next=newNode;
+            newNode->next=p;
+            temp=p;
+        }
+        temp=pHead;       //重置temp指向
+        RandomListNode* Next=NULL;      //Next是指向新插入的节点
+        while(temp)           //给新插入的节点的random指针域赋值
+        {
+            Next=temp->next;
+            if(temp->random)
+            Next->random=temp->random->next;
+            temp=Next->next;
+        }
+        temp=pHead;
+        RandomListNode* ret=temp->next;   //返回值
+        while(temp)
+        {
+           /* Next=temp->next;
+            temp->next=Next->next;
+            temp=temp->next;
+            if(temp)
+                Next->next=temp->next;
+                */
+            Next=temp->next;
+            p=Next->next;
+            temp->next=p;
+            if(p!=NULL)
+            Next->next=p->next;
+            temp=p;
+            
+        }
+        return ret;
+   }
