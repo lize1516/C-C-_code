@@ -148,3 +148,31 @@ int minimumTotal(vector<vector<int> > &triangle) {
          }
          return NULL;
      }
+
+
+//5.将一个二叉搜索树转换成双向链表，不能开辟额外的节点
+void Change(TreeNode* head,TreeNode*& prev)
+    {
+        if(head==NULL)
+            return;
+        Change(head->left,prev);   //找到最左侧的节点
+        head->left=prev;
+        
+        if(prev!=NULL)             //如果前一个节点不为空，令其右分支指向当前节点
+            prev->right=head;
+        
+        prev=head;                //将当前节点赋值给prev
+        Change(head->right,prev);    //处理右分支
+    }
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        if(pRootOfTree==NULL)
+            return NULL;
+        TreeNode* head=pRootOfTree;
+        while(head->left!=NULL)
+            head=head->left;
+        TreeNode* prev=NULL;
+        Change(pRootOfTree,prev);
+        
+        return head;
+    }
