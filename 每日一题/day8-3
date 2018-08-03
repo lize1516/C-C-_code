@@ -1,4 +1,4 @@
-//Given a singly linked list L: L 0→L 1→…→L n-1→L n,
+//1.Given a singly linked list L: L 0→L 1→…→L n-1→L n,
 reorder it to: L 0→L n →L 1→L n-1→L 2→L n-2→…
 
 For example,
@@ -23,4 +23,40 @@ void reorderList(ListNode *head) {
             right--;
         }
         _Node[left]->next=NULL;
+    }
+
+//2.Sort a linked list in O(n log n) time using constant space complexity.
+//链表排序，时间复杂度为O（nlogn）;
+ListNode *sortList(ListNode *head) {
+        if(head==NULL||head->next==NULL)
+            return head;
+        ListNode* slow=head;
+        ListNode* fast=head->next;
+        while(fast&&fast->next)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+        }
+        ListNode* mid=slow->next;
+        slow->next=NULL;
+        return Mergelist(sortList(head),sortList(mid));
+    }
+    ListNode* Mergelist(ListNode* list1,ListNode* list2)
+    {
+        if(list1==NULL)
+            return list2;
+        if(list2==NULL)
+            return list1;
+        ListNode* temp=NULL;
+        if(list1->val<list2->val)
+        {
+            temp=list1;
+            temp->next=Mergelist(list1->next,list2);
+        }
+        else
+        {
+            temp=list2;
+            temp->next=Mergelist(list2->next,list1);
+        }
+        return temp;
     }
