@@ -1,0 +1,26 @@
+//Given a singly linked list L: L 0→L 1→…→L n-1→L n,
+reorder it to: L 0→L n →L 1→L n-1→L 2→L n-2→…
+
+For example,
+Given{1,2,3,4}, reorder it to{1,4,2,3}.
+/////////////////////////////////////////
+void reorderList(ListNode *head) {
+        if(head==NULL||head->next==NULL)
+            return;
+        ListNode*cur=head;
+        vector<ListNode*> _Node;
+        while(cur)
+        {
+            _Node.push_back(cur);
+            cur=cur->next;
+        }
+        int left=0;
+        int right=_Node.size()-1;
+        while(left<right)
+        {
+            _Node[left]->next=_Node[right];
+            _Node[right]->next=_Node[++left];
+            right--;
+        }
+        _Node[left]->next=NULL;
+    }
