@@ -1,4 +1,4 @@
-//求二叉树的高度
+//1.求二叉树的高度
 
 struct TreeNode {
 	int val;
@@ -19,3 +19,19 @@ public:
         return left>right?left+1:right+1;
     }
 };
+
+//2.对二叉树进行前序遍历
+
+void PreOrder(TreeNode*root,vector<int>& ret)
+    {
+        if(root==NULL)
+        return;
+        ret.push_back(root->val);
+        PreOrder(root->left,ret);
+        PreOrder(root->right,ret);
+    }
+    vector<int> preorderTraversal(TreeNode *root) {
+        vector<int> ret;
+        PreOrder(root,ret);
+        return ret;
+    }
