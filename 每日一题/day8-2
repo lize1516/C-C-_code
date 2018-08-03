@@ -26,3 +26,19 @@ ListNode* deleteDuplication(ListNode* pHead)
          tail->next=NULL;
         return newHead->next;
     }
+
+//2.判断链表是否带环
+bool hasCycle(ListNode *head) {
+        if(head==NULL)
+            return false;
+        ListNode* fast=head->next;
+        ListNode* slow=head;
+        while(fast&&fast->next)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+            if(fast==slow)
+                return true;
+        }
+        return false;
+    }
