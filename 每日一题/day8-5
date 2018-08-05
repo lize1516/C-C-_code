@@ -1,0 +1,57 @@
+//1.给一个已序链表，创建平衡二叉树
+TreeNode *sortedListToBST(ListNode *head) {
+        int n=0;
+        ListNode* cur=head;
+        while(cur)
+        {
+            n++;
+            cur=cur->next;
+        }
+        return CreateTree(head,0,n-1);
+    }
+    TreeNode* CreateTree(ListNode* head,int left,int right)
+    {
+        if(left>right)
+            return NULL;
+        int mid=(right+left)/2;
+        ListNode* temp=head;
+        if((right+left)%2==1)   //注意
+            mid=mid+1;
+        
+        for(int i=left;i<mid;i++)
+            temp=temp->next;
+        
+        TreeNode* root=new TreeNode(temp->val);
+        root->left=CreateTree(head,left,mid-1);
+        root->right=CreateTree(temp->next,mid+1,right);
+        return root;
+    }
+//////////////////////////////////////////////////////////////
+//2.For example,
+Given1->4->3->2->5->2and x = 3,
+return1->2->2->4->3->5.
+//将大于等于x的节点放在后面，移动的节点次序保持不变。
+
+ListNode *partition(ListNode *head, int x) {
+        ListNode* newhead1=new ListNode(-1);
+        ListNode* newhead2=new ListNode(-1);
+        ListNode* tail1=newhead1;
+        ListNode* tail2=newhead2;
+        while(head)
+        {
+            if(head->val<x)
+            {
+                tail1->next=head;
+                tail1=tail1->next;
+            }
+            else
+            {
+                tail2->next=head;
+                tail2=tail2->next;
+            }
+            head=head->next;
+        }
+        tail1->next=newhead2->next;
+        tail2->next=NULL;
+        return newhead1->next;
+    }
