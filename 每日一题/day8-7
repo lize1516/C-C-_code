@@ -1,0 +1,24 @@
+//1.旋转链表
+//例：1->2->3->4->5->NULL     k=2;    
+//旋转后：4->5->1->2->3->NULL
+
+ListNode *rotateRight(ListNode *head, int k) {
+        if(head==NULL||k==0)
+            return head;
+        int count=1;
+        ListNode* temp=head;
+        while(temp->next)
+        {
+            count++;
+            temp=temp->next;
+        }
+        temp->next=head;     //将链表闭合成一个环
+        k=count-k%count;
+        temp=head;
+        while(--k)
+            temp=temp->next;
+        
+        head=temp->next;
+        temp->next=NULL;
+        return head;
+    }
