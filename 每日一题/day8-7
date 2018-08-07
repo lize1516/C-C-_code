@@ -22,3 +22,35 @@ ListNode *rotateRight(ListNode *head, int k) {
         temp->next=NULL;
         return head;
     }
+
+
+//2.删除链表倒数第k个节点
+
+ListNode *removeNthFromEnd(ListNode *head, int n) {
+        if(head==NULL)
+            return NULL;
+        ListNode* fast=head;
+        ListNode* slow=head;
+        ListNode* del=NULL;
+        while(n--)
+        {
+            if(fast==NULL)
+                return NULL;
+            fast=fast->next;
+        }
+        if(fast==NULL)
+        {
+            slow=head->next;
+            delete head;
+            return slow;
+        }
+        while(fast->next)
+        {
+            slow=slow->next;
+            fast=fast->next;
+        }
+        del=slow->next;
+        slow->next=del->next;
+        delete del;
+        return head;
+    }
