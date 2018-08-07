@@ -97,4 +97,71 @@ int main()
 	return 0;
 }
 
+//4.将一个数变成斐波那契额数的最小步数（每次操作只能加一或者减一）
+//方法一
+int Fib(int n)
+{
+	int a = 0;
+	int b = 1;
+	int c = 0;
+	for (int i = 1; i < n; i++)
+	{
+		c = a + b;
+		a = b;
+		b = c;
+	}
+	return c;
+}
+int find(int n)
+{
+	int num1 = 0;
+	int num2 = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		num1 = Fib(i);
+		num2 = Fib(i + 1);
+		if (n == num1 || n == num2)
+			return 0;
+		if (num1<n&&num2>n)
+		{
+			int count1 = n - num1;
+			int count2 = num2 - n;
+			return count1 < count2 ? count1 : count2;
+		}
+	}
+	return -1;
+}
+int main()
+{
+	int n = 0;
+	cin >> n;
+	int ret=find(n);
+	cout << ret << endl;
+	system("pause");
+	return 0;
+}
+//方法二
+int main(){
+
+	int N;
+	while (cin>>N) {
+
+		int f0=0,f1=1,f,a=0,b=0;
+
+		while (1) {
+			f = f0 + f1;
+			f0 = f1;
+			f1 = f;
+			if (f<N) {
+				a = N-f;
+			}else{
+				b = f-N;
+				break;
+			}
+		}
+		int ret = a < b ? a : b;
+		cout<<ret<<endl;
+	}
+	return 0;
+}
 
