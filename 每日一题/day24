@@ -1,4 +1,4 @@
-//判断一棵二叉树是否平衡
+//1.判断一棵二叉树是否平衡
 int High(TreeNode* head)
     {
         if(head==NULL)
@@ -20,4 +20,21 @@ int High(TreeNode* head)
         return false;
         else
             return IsBalanced_Solution(pRoot->left)&&IsBalanced_Solution(pRoot->right);
+    }
+
+//2.后序遍历二叉树
+ void AfterOrder(TreeNode* head,vector<int>& ret)
+    {
+        if(head==NULL)
+            return;
+        AfterOrder(head->left,ret);
+        AfterOrder(head->right,ret);
+        ret.push_back(head->val);
+    }
+    vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> ret;
+        if (root==NULL)
+            return ret;
+        AfterOrder(root,ret);
+        return ret;
     }
