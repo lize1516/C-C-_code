@@ -50,3 +50,39 @@ ListNode *addTwoNumbers(ListNode *l1, ListNode *l2) {
         }
         return newhead->next;
     }
+    
+    //2.二叉树层序遍历，按层打印，每层是从左到右打印
+    vector<vector<int> > Print(TreeNode* pRoot) {
+            vector<vector<int>> ret;
+            vector<int> temp;
+            if(pRoot==NULL)
+                return ret;
+            queue<TreeNode*> q;
+            q.push(pRoot);
+            int count=1;
+            while(!q.empty())
+            {
+                 int num=count;
+                     count=0;
+                 while(num--)
+                 {
+                     TreeNode* Node=q.front();
+                     q.pop();
+                     temp.push_back(Node->val);
+                     if(Node->left)
+                     {
+                         q.push(Node->left);
+                         count++;
+                     }
+                     if(Node->right)
+                     {
+                         q.push(Node->right);
+                         count++;
+                     }
+                 }
+                ret.push_back(temp);
+                temp.clear();
+            }
+            return ret;
+        }
+    
