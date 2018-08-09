@@ -1,0 +1,11 @@
+//1.求二叉树镜像
+void Mirror(TreeNode *pRoot) {
+         if(pRoot==NULL)
+             return;
+        swap(pRoot->left,pRoot->right);
+         if(pRoot->left!=NULL)
+             Mirror(pRoot->left);
+         if(pRoot->right!=NULL)
+             Mirror(pRoot->right);
+    }
+    
