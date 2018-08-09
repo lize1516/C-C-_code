@@ -8,4 +8,15 @@ void Mirror(TreeNode *pRoot) {
          if(pRoot->right!=NULL)
              Mirror(pRoot->right);
     }
-    
+ 
+//2.求二叉树的高度
+int TreeDepth(TreeNode* pRoot)
+    {
+        if(pRoot==NULL)
+            return 0;
+        if(pRoot->left==NULL&&pRoot->right==NULL)
+            return 1;
+        int left=TreeDepth(pRoot->left);
+        int right=TreeDepth(pRoot->right);
+        return left>right?(left+1):(right+1);
+    }
