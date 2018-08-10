@@ -1,0 +1,29 @@
+//1.判断一个整数序列，是否是某二叉搜索树的后序遍历的结果
+bool VerifySquenceOfBST(vector<int> sequence) {
+        if(sequence.empty())
+            return false;
+        int size=sequence.size();
+        vector<int> _left;
+        vector<int> _right;
+        int i=0;
+        for(i=0;i<size-1;i++)
+        {
+            if(sequence[i]<sequence[size-1])
+                _left.push_back(sequence[i]);
+            else
+                break;
+        }
+        for(;i<size-1;i++)
+        {
+            if(sequence[i]>sequence[size-1])
+                _right.push_back(sequence[i]);
+            else
+                return false;
+        }
+        bool left_bool=true,right_bool=true;
+        if(!_left.empty())
+            left_bool=VerifySquenceOfBST(_left);
+        if(!_right.empty())
+            right_bool=VerifySquenceOfBST(_right);
+        return left&&right;
+     }
