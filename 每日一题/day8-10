@@ -27,3 +27,49 @@ bool VerifySquenceOfBST(vector<int> sequence) {
             right_bool=VerifySquenceOfBST(_right);
         return left&&right;
      }
+
+//2.判断一棵二叉树是否是平衡二叉树
+///////////////////////////////////
+int High(TreeNode* Root)
+    {
+        if(Root==NULL)
+            return 0;
+        if(Root->left==NULL&&Root->right==NULL)
+            return 1;
+        int left=High(Root->left);
+        int right=High(Root->right);
+        return left>right?left+1:right+1;
+    }
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+        if(pRoot==NULL)
+            return true;
+        int cur=High(pRoot->left)-High(pRoot->right);
+        if(cur<-1||cur>1)
+            return false;
+        if(pRoot->left)
+           IsBalanced_Solution(pRoot->left);
+        if(pRoot->right)
+           IsBalanced_Solution(pRoot->right);
+        return true;
+    }
+    ///////////////////////////////////////////
+    //（2）
+    int High(TreeNode* Root)
+    {
+        if(Root==NULL)
+            return 0;
+        if(Root->left==NULL&&Root->right==NULL)
+            return 1;
+        int left=High(Root->left);
+        int right=High(Root->right);
+        return left>right?left+1:right+1;
+    }
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+        if(pRoot==NULL)
+            return true;
+        int cur=High(pRoot->left)-High(pRoot->right);
+        if(cur>=-1&&cur<=1)
+            return IsBalanced_Solution(pRoot->left)&&IsBalanced_Solution(pRoot->right);
+        else
+            return false;
+    }
