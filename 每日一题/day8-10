@@ -30,6 +30,7 @@ bool VerifySquenceOfBST(vector<int> sequence) {
 
 //2.判断一棵二叉树是否是平衡二叉树
 ///////////////////////////////////
+//(1)
 int High(TreeNode* Root)
     {
         if(Root==NULL)
