@@ -26,3 +26,27 @@ TreeLinkNode* GetNext(TreeLinkNode* pNode)
         }
         return ret;
     }
+
+
+//2.重建二叉树
+//根据前序遍历和中序遍历，重建二叉树
+ TreeNode* reConstructBinaryTree(vector<int> pre,vector<int> vin) {
+        return createBST(pre,vin,0,pre.size()-1,0,vin.size()-1); 
+    }
+    TreeNode* createBST(vector<int> pre,vector<int> vin,int prestart,int preend,int vinstart,int vinend)
+    {
+        if(prestart>preend||vinstart>vinend)
+            return NULL;
+        TreeNode* Root=new TreeNode(pre[prestart]);
+        int i=0;
+        for(i=vinstart;i<=vinend;i++)
+        {
+            if(pre[prestart]==vin[i])
+                break;
+        }
+        Root->left=createBST(pre,vin,prestart+1,prestart+i-vinstart,vinstart,i-1);
+        Root->right=createBST(pre,vin,prestart+i-vinstart+1,preend,i+1,vinend);
+        return Root;
+    }
+
+
