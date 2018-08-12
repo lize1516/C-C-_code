@@ -1,0 +1,28 @@
+//1.给一个节点找这个节点中序遍历的下一个节点，
+//二叉树中包含parent指针，next
+
+TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        if(pNode==NULL)
+            return NULL;
+        TreeLinkNode* ret=NULL;
+        if(pNode->right!=NULL)
+        {
+            TreeLinkNode*pRight=pNode->right;
+            while(pRight->left!=NULL)
+                pRight=pRight->left;
+            ret=pRight;
+        }
+        else if(pNode->right==NULL)
+        {
+            TreeLinkNode* cur=pNode;
+            TreeLinkNode* parent=pNode->next;
+            while(parent!=NULL&&cur==parent->right)
+            {
+                cur=parent;
+                parent=parent->next;
+            }
+            ret=parent;
+        }
+        return ret;
+    }
