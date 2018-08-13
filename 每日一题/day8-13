@@ -14,6 +14,41 @@ bool isSymmetrical(TreeNode* pRoot)
             return false;
         if(t1->val!=t2->val)
             return false;
-        return isSymmetrical(t1->left,t2->right)&&isSymmetrical(t1->right,t2->left);
-        
+        return isSymmetrical(t1->left,t2->right)&&isSymmetrical(t1->right,t2->left);    
     }
+    
+//2.层序遍历二叉树，每层从左到右打印一行
+vector<vector<int> > Print(TreeNode* pRoot) {
+            vector<vector<int>> ret;
+            vector<int> temp;
+            if(pRoot==NULL)
+                return ret;
+            queue<TreeNode*> q;
+            q.push(pRoot);
+            int count=1;
+            int cur=0;
+            while(!q.empty())
+            {
+                cur=count;
+                count=0;
+                while(cur--)
+                {
+                    TreeNode* p=q.front();
+                    q.pop();
+                    temp.push_back(p->val);
+                    if(p->left)
+                    {
+                        q.push(p->left);
+                            count++;
+                    }
+                    if(p->right)
+                    {
+                        q.push(p->right);
+                            count++;
+                    }
+                }
+                ret.push_back(temp);
+                temp.clear();
+            }
+            return ret;
+        }
