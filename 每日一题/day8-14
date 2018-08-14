@@ -70,6 +70,22 @@ public:
     
 };
 
+//2.先序遍历二叉树
+void SaveNum(TreeNode* Root,vector<int>& ret)      //先序遍历
+    {
+        if(Root==NULL)
+            return;
+        ret.push_back(Root->val);
+        if(Root->left)
+            SaveNum(Root->left,ret);
+        if(Root->right)
+            SaveNum(Root->right,ret);
+    }
+    vector<int> preorderTraversal(TreeNode *root) {
+        vector<int> ret;
+        SaveNum(root,ret);
+        return ret;
+    }
 
 
 
