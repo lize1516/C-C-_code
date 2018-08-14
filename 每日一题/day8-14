@@ -1,0 +1,75 @@
+//1.实现两个函数，序列化和反序列化二叉树
+
+/*
+struct TreeNode {
+    int val;
+    struct TreeNode *left;
+    struct TreeNode *right;
+    TreeNode(int x) :
+            val(x), left(NULL), right(NULL) {
+    }
+};
+*/
+class Solution {
+public:
+    char* Serialize(TreeNode *root) {        //序列化
+        if(root==NULL)
+            return NULL;
+        string str;
+        Serialize(root,str);
+        char *ret=new char[str.size()+1];     //开辟一段为char* 类型的空间
+        int i;
+        for(i=0;i<str.size();i++){     
+            ret[i]=str[i];         //将string 转换成char*
+        }
+        ret[i]='\0';       //
+        return ret;
+    }
+    void Serialize(TreeNode* root,string& str)       //序列化递归体，前序遍历
+    {
+        if(root==NULL)
+        {
+            str+='#';      //当前节点为空，使用'#'占位
+            return;
+        }
+        string r=to_string(root->val);     //将数字转字符串
+        str+=r;
+        str+=',';         //使用','分隔节点
+        Serialize(root->left,str);       //遍历左子树
+        Serialize(root->right,str);      //遍历右子树
+    }
+    
+    TreeNode* Deserialize(char *str) {         //反序列化
+        if(str==NULL)
+            return NULL;
+        TreeNode* ret = Deserialize(&str);       
+        return ret;
+    }
+    TreeNode* Deserialize(char** str)    //反序列化递归体
+    {
+        if(**str=='#')          //如果为'#'跳向下一位
+        {
+            ++(*str);          
+            return NULL;
+        }
+        int num=0;
+        while(**str!='\0'&&**str!=',')    //当为数字字符时，提取这个数字
+        {
+            num=num*10+((**str)-'0');     //将数字字符转化成数字
+            ++(*str);
+        }
+        TreeNode* root=new TreeNode(num);    //创建节点
+        if(**str=='\0')       //遍历完闭，退出
+            return root;
+        else                 //跳过','
+            (*str)++;
+        root->left=Deserialize(str);     //创建左子树
+        root->right=Deserialize(str);    //创建右子树
+        return root;
+    }
+    
+};
+
+
+
+
