@@ -1,0 +1,24 @@
+//1.二叉树前序遍历，非递归
+vector<int> preorderTraversal(TreeNode *root) {
+        vector<int> ret;
+        if(root==NULL)
+            return ret;
+        stack<TreeNode*> s;
+        s.push(root);
+        while(!s.empty())
+        {
+            TreeNode* temp=s.top();
+            s.pop();
+            while(temp)
+            {
+                ret.push_back(temp->val);
+                if(temp->right)
+                   s.push(temp->right);
+                temp=temp->left;
+            }
+        }
+        return ret;
+    }
+    
+
+//2.
