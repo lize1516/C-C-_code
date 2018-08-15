@@ -21,4 +21,30 @@ vector<int> preorderTraversal(TreeNode *root) {
     }
     
 
-//2.
+//2.后序遍历二叉树，非递归
+vector<int> postorderTraversal(TreeNode *root) {
+        vector<int> ret;
+        if(root==NULL)
+            return ret;
+        stack<TreeNode*> s;
+        TreeNode* cur=root;
+        TreeNode* flag=NULL;
+        while(cur||!s.empty())
+        {
+            while(cur){
+                s.push(cur);
+                cur=cur->left;
+            }
+            cur=s.top();
+            if(cur->right==NULL||flag==cur->right)
+            {
+                ret.push_back(cur->val);
+                flag=cur;
+                s.pop();
+                cur=NULL;
+            }
+            else
+                cur=s.top()->right;
+        }
+        return ret;
+    }
