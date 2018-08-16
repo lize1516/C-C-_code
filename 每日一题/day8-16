@@ -25,3 +25,19 @@ int max=INT_MIN;
         ret=ret>(temp+rMax)?ret:(temp+rMax);
         return ret;
     }
+    
+//2.给一棵二叉树，返回该二叉树的最小深度
+int run(TreeNode *root) {
+        if(root==NULL)
+            return 0;
+        if(root->left==NULL&&root->right==NULL)  //无左右子树
+            return 1;
+        if(root->left==NULL)          //无左子树，以右子树为根，看它的左右子树
+            return run(root->right)+1;
+        else if(root->right==NULL)     //无右子树，以左子树为根，看它的左右子树
+            return run(root->left)+1;
+        else
+            return 1+min(run(root->left),run(root->right));
+    }
+
+
