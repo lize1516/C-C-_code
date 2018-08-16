@@ -1,0 +1,27 @@
+//1.给一棵二叉树，找最大路径和，（求联通的路径的和的最大值）
+int max=INT_MIN;
+    int maxPathSum(TreeNode* root){
+        slove(root);
+        return max;
+    }
+    int slove(TreeNode* root)
+    {
+        if(root==NULL)
+            return 0;
+        int val=root->val;
+        int temp=val;
+        int lMax=slove(root->left);
+        int rMax=slove(root->right);
+        
+        if(lMax>0)
+            val+=lMax;
+        if(rMax>0)
+            val+=rMax;
+        if(val>max)
+            max=val;
+        
+        int ret=temp;
+        ret=ret>(temp+lMax)?ret:(temp+lMax);
+        ret=ret>(temp+rMax)?ret:(temp+rMax);
+        return ret;
+    }
