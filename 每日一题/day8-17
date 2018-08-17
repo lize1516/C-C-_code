@@ -20,3 +20,14 @@ TreeNode* CreateBST(vector<int> inorder,vector<int> postorder,int instart,int in
         return CreateBST(inorder,postorder,0,inorder.size()-1,0,postorder.size()-1);
     }
     
+//2.判断两个二叉树是否相同
+ bool isSameTree(TreeNode *p, TreeNode *q) {
+        if(p==NULL&&q==NULL)
+            return true;
+        if(p==NULL||q==NULL)
+            return false;
+        if(p->val==q->val)
+          return isSameTree(p->left,q->left)&&isSameTree(p->right,q->right);
+        else
+            return false;
+    }
