@@ -68,3 +68,42 @@ ListNode* deleteDuplication(ListNode* pHead)
 	}
 	return newhead->next;
 }
+
+//
+//day12
+//2.删除重复的节点
+#if 0
+struct ListNode {
+	int val;
+	struct ListNode *next;
+	ListNode(int x) :
+		val(x), next(NULL) {
+	}
+};
+ListNode* deleteDuplication(ListNode* pHead)
+{
+	if (pHead == NULL)
+		return NULL;
+	ListNode* newhead = new ListNode(-1);
+	newhead->next = pHead;
+	ListNode* temp = newhead;
+	ListNode* p = pHead;
+	ListNode* Next = NULL;
+	while (p != NULL&& p->next != NULL)
+	{
+		Next = p->next;
+		if (p->val == Next->val)
+		{
+			while (Next != NULL&&Next->val == p->val)
+				Next = Next->next;
+			temp->next = Next;
+			p = Next;
+		}
+		else
+		{
+			temp = p;
+			p = p->next;
+		}
+	}
+	return newhead->next;
+}
