@@ -1,0 +1,13 @@
+//1.判断一棵二叉树，是否是二叉搜索树
+
+bool IsBST(TreeNode* root,int min,int max)
+    {
+        if(root==NULL)
+            return true;
+        if(root->val<min||root->val>max)
+            return false;
+        return IsBST(root->left,min,root->val-1)&&IsBST(root->right,root->val+1,max);
+    }
+    bool isValidBST(TreeNode *root) {
+        return IsBST(root,INT_MIN,INT_MAX);
+    }
