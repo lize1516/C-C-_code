@@ -11,3 +11,30 @@ bool IsBST(TreeNode* root,int min,int max)
     bool isValidBST(TreeNode *root) {
         return IsBST(root,INT_MIN,INT_MAX);
     }
+
+//2.一棵二叉搜索树中有两个节点存放错误，请将该二叉搜索树还原
+ TreeNode *s1,*s2,*pre;
+    void FindTwoNum(TreeNode* root)
+    {
+        if(root==NULL)
+            return;
+        FindTwoNum(root->left);
+        if(pre&&pre->val>root->val)
+        {
+            if(s1==NULL){
+                s1=pre;
+                s2=root;
+            }
+            else
+                s2=root;
+        }
+        pre=root;
+        FindTwoNum(root->right);
+    }
+    void recoverTree(TreeNode *root) {
+        if(root==NULL)
+            return;
+        s1=s2=pre=NULL;
+        FindTwoNum(root);
+        swap(s1->val,s2->val);
+    }
