@@ -27,3 +27,21 @@ vector<TreeNode*> GenerateTrees(int start,int end)
     vector<TreeNode *> generateTrees(int n) {
         return GenerateTrees(1,n);
     }
+    
+ 
+//2.二叉树的中序遍历
+void Inorder(TreeNode*root,vector<int>& ret)
+    {
+        if(root==NULL)
+            return;
+        Inorder(root->left,ret);
+        ret.push_back(root->val);
+        Inorder(root->right,ret);
+    }
+    vector<int> inorderTraversal(TreeNode *root) {
+        vector<int> ret;
+        if(root==NULL)
+            return ret;
+        Inorder(root,ret);
+        return ret;
+    }
