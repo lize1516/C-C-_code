@@ -1,0 +1,29 @@
+//1.动态规划，给一个数n，表示有n个节点，列出所有不同的二叉树
+
+vector<TreeNode*> GenerateTrees(int start,int end)
+    {
+        vector<TreeNode*> ret;
+        vector<TreeNode*> temp;
+        TreeNode* cur=NULL;
+        if(start>end){
+            ret.push_back(NULL);
+            return ret;
+        }
+        for(int i=start;i<=end;i++){
+            vector<TreeNode*> left=GenerateTrees(start,i-1);
+            vector<TreeNode*> right=GenerateTrees(i+1,end);
+            for(int j=0;j<left.size();j++){
+                for(int m=0;m<right.size();m++){
+                    TreeNode*cur=new TreeNode(i);
+                    cur->left=left[j];
+                    cur->right=right[m];
+                    ret.push_back(cur);
+                }
+            }
+        }
+        return ret;
+    }
+    
+    vector<TreeNode *> generateTrees(int n) {
+        return GenerateTrees(1,n);
+    }
