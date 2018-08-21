@@ -1,0 +1,14 @@
+//1.旋转字符串，左旋n位
+//例：str=“abcSFTbdf” ,n=3   ->   "SFTbdfabc"
+string LeftRotateString(string str, int n) {
+        int size=str.size();
+        if(size==0)
+            return str;
+        string ret;
+        int k=n%size;
+        for(int i=k;i<size;i++)
+            ret.push_back(str[i]);
+        for(int j=0;j<k;j++)
+            ret.push_back(str[j]);
+        return ret;
+    }
