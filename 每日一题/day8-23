@@ -23,7 +23,7 @@ bool match(char* str, char* pattern)
 }
 
 
-//2.
+//2.反转字符串中的每一个单词
  void reverse(string& str,int left,int right)
     {
         while(left<right)
