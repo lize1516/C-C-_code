@@ -21,3 +21,38 @@ bool match(char* str, char* pattern)
 			return match(str,pattern+2);
 	}
 }
+
+
+//2.
+ void reverse(string& str,int left,int right)
+    {
+        while(left<right)
+        {
+            char ch=str[left];
+            str[left]=str[right];
+            str[right]=ch;
+            left++;
+            right--;
+        }
+    }
+    string ReverseSentence(string str) {
+        int size=str.size();
+        if(size==0)
+            return str;
+        reverse(str,0,size-1);
+        int left=0,right=0;
+        int i=0;
+        while(i<size)
+        {
+            while(str[i]==' ')
+                i++;
+            left=i;
+            while(str[i]!=' '&&i<size)
+            {
+                i++;
+            }
+            right=i-1;
+            reverse(str,left,right);
+        }
+        return str;
+    }
