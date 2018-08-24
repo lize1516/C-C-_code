@@ -1,3 +1,35 @@
+//1.给一组数，找这组数中出现次数超过总数一半的数字
+int MoreThanHalfNum_Solution(vector<int> numbers) {
+        int size=numbers.size();
+        if(size==0)
+            return 0;
+        int temp=numbers[0];
+        int count=1;
+        for(int i=1;i<size;i++)
+        {
+            if(temp==numbers[i])
+                count++;
+            else
+                count--;
+            if(count==0)
+            {
+                count=1;
+                temp=numbers[i];
+            }
+        }
+        count=0;
+        for(int i=0;i<size;i++)
+        {
+            if(temp==numbers[i])
+                count++;
+        }
+        if(count*2>size)
+            return temp;
+        return 0;
+    }
+
+
+
 //2.输入一个正整数数组，把数组里所有数字拼接起来排成一个数，打印能拼接出的所有数字中最小的一个。
 //例如输入数组{3，32，321}，则打印出这三个数字能排成的最小数字为321323。
 
